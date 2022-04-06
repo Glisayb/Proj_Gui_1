@@ -1,5 +1,7 @@
 package com.company;
 
+import Models.Ship;
+
 public class Main {
 
     public static void main(String[] args) {
