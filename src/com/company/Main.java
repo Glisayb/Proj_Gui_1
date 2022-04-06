@@ -3,6 +3,8 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
+        Ship latajacy = new Ship("latajacyholender","Amsterdam","Borholm","Danzig",44,21.37,10,7,13);
+
     }
 }
