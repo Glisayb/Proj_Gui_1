@@ -2,7 +2,7 @@ package Models.Containers;
 
 public interface IContToxic {
 
-    String pollutionType();
+    String getPollutionType();
     void setPollutionType(String pollutionType);
 
 }

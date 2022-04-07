@@ -9,7 +9,7 @@ public class ContToxicLoose extends ContHeavy implements IContToxic{
     }
 
     @Override
-    public String pollutionType() {
+    public String getPollutionType() {
         return null;
     }
 

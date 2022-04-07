@@ -21,7 +21,7 @@ public class ContToxicLiquid extends ContHeavy implements IContLiquid, IContToxi
     }
 
     @Override
-    public String pollutionType() {
+    public String getPollutionType() {
         return null;
     }
 
