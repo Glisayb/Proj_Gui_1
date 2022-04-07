@@ -1,7 +1,7 @@
 package com.company;
 
-import Models.ContHeavy;
-import Models.IContHeavy;
+import Models.Containers.ContHeavy;
+import Models.Containers.IContHeavy;
 import Models.Ship;
 
 public class Main {

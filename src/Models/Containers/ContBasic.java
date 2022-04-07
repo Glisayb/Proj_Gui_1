@@ -1,4 +1,6 @@
-package Models;
+package Models.Containers;
+
+import com.company.StaticClasses;
 
 public class ContBasic {
 
@@ -8,6 +10,8 @@ double weight;
 int insuranceValue;
 
     ContBasic(double weight, int insuranceValue){
+
+        Id = StaticClasses.IdGenerator.Generate();
 
         this.weight = weight;
         this.insuranceValue = insuranceValue;

@@ -1,4 +1,4 @@
-package Models;
+package Models.Containers;
 
 public class ContHeavy extends ContBasic implements IContHeavy{
 

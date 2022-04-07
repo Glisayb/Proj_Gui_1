@@ -1,4 +1,4 @@
-package Models;
+package Models.Containers;
 
 public class ContCooling extends ContHeavy implements IContCooling{
     double amperage;

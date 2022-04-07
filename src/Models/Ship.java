@@ -1,5 +1,7 @@
 package Models;
 
+import com.company.StaticClasses;
+
 public class Ship {
     //basic info
     String name;
@@ -18,6 +20,8 @@ public class Ship {
     int maxHazzardous;
 
     public Ship(String name,String homeport,String from,String destination,int maxCapacity,double maxWeight,int maxHeavy,int maxElectrified,int maxHazzardous){
+
+        shipId = StaticClasses.IdGenerator.Generate();
 
         this.name = name;
         this.homeport = homeport;
