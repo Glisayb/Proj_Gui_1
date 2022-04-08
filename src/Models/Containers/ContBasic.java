@@ -17,4 +17,8 @@ int insuranceValue;
         this.insuranceValue = insuranceValue;
 
     }
+
+    public double getWeight() {
+        return weight;
+    }
 }
