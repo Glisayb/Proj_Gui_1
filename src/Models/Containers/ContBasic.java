@@ -4,14 +4,14 @@ import com.company.StaticClasses;
 
 public class ContBasic {
 
-String Id;
+String id;
 
 double weight;
 int insuranceValue;
 
-    ContBasic(double weight, int insuranceValue){
+    public ContBasic(double weight, int insuranceValue){
 
-        Id = StaticClasses.IdGenerator.Generate();
+        id = StaticClasses.IdGenerator.Generate();
 
         this.weight = weight;
         this.insuranceValue = insuranceValue;

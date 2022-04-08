@@ -1,8 +1,10 @@
 package Models.Containers;
 
+import Models.Pollutions;
+
 public interface IContToxic {
 
-    String getPollutionType();
-    void setPollutionType(String pollutionType);
+    Pollutions getPollutionType();
+    void setPollutionType(Pollutions pollutionType);
 
 }

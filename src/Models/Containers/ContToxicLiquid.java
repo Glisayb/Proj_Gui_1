@@ -1,12 +1,16 @@
 package Models.Containers;
 
-public class ContToxicLiquid extends ContHeavy implements IContLiquid, IContToxic{
+import Models.Pollutions;
 
-    public ContToxicLiquid(double weight, int insuranceValue, int iso, double density, String pollutionType) {
+public class ContToxicLiquid extends ContHeavy implements IContToxicLiquid{
+    String compoundName;
+
+    public ContToxicLiquid(double weight, int insuranceValue, int iso, double density, Pollutions pollutionType, String compoundName) {
 
         super(weight, insuranceValue, iso);
         setDensity(density);
         setPollutionType(pollutionType);
+        this.compoundName = compoundName;
 
     }
 
@@ -21,12 +25,22 @@ public class ContToxicLiquid extends ContHeavy implements IContLiquid, IContToxi
     }
 
     @Override
-    public String getPollutionType() {
+    public Pollutions getPollutionType() {
         return null;
     }
 
     @Override
-    public void setPollutionType(String pollutionType) {
+    public void setPollutionType(Pollutions pollutionType) {
+
+    }
+
+    @Override
+    public String getCompoundName() {
+        return null;
+    }
+
+    @Override
+    public void setCompoundName(String compoundName) {
 
     }
 }
