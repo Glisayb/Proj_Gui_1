@@ -1,3 +1,3 @@
 package Models;
 
-public enum Pollutions { Biohazard, Radioactiv, Stupidity, Alkoholic, Night_Pollutions }
+public enum Pollutions { BIHAZARD, RADIOACTIV, STUPIDITY, ALKOHOLIC, NIGHT_POLLUTIONS }
