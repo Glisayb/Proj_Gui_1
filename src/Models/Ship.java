@@ -2,7 +2,7 @@ package Models;
 
 import com.company.StaticClasses;
 
-public class Ship extends ShipCapacityInfo {
+public class Ship {
     //basic info
     String name;
     String homeport;
@@ -12,9 +12,9 @@ public class Ship extends ShipCapacityInfo {
     //ID.
     String shipId;
 
-    public Ship(String name,String homeport,String from,String destination, int maxCapacity,double maxWeight,int maxHeavy,int maxElectrified,int maxHazzardous){
+    ShipCapacityInfo shipCapacityInfo;
 
-        super(maxCapacity ,maxWeight ,maxHeavy ,maxElectrified ,maxHazzardous);
+    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityInfo){
 
         shipId = StaticClasses.IdGenerator.Generate();
 
@@ -22,6 +22,8 @@ public class Ship extends ShipCapacityInfo {
         this.homeport = homeport;
         this.from = from;
         this.destination = destination;
+
+        this.shipCapacityInfo = shipCapacityInfo;
 
     }
 }
