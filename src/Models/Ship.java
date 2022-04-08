@@ -1,5 +1,6 @@
 package Models;
 
+import Models.Containers.ContBasic;
 import com.company.StaticClasses;
 
 public class Ship {
@@ -12,9 +13,11 @@ public class Ship {
     //ID.
     String shipId;
 
-    ShipCapacityInfo shipCapacityInfo;
+    //ship capacity
+    ShipCapacityInfo shipCapacityMax;
+    ShipCapacityInfo shipCapacityCurent;
 
-    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityInfo){
+    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityMax, ShipCapacityInfo shipCapacityCurent ){
 
         shipId = StaticClasses.IdGenerator.Generate();
 
@@ -23,7 +26,26 @@ public class Ship {
         this.from = from;
         this.destination = destination;
 
-        this.shipCapacityInfo = shipCapacityInfo;
+        this.shipCapacityMax = shipCapacityMax;
+        this.shipCapacityCurent = shipCapacityCurent;
+
+    }
+
+    public void loadContainer(ContBasic container){
+        int newCapacity;
+        double newWeight;
+
+        //newCapacity = shipCapacityCurent.capacity + 1;
+        //newWeight = shipCapacityCurent.weight + container.getWeight();
+
+        //if (newWeight <= shipCapacityMax.weight && newCapacity <= shipCapacityCurent.capacity)
+        {
+
+          //  shipCapacityCurent.capacity = newCapacity;
+            //shipCapacityCurent.weight = newWeight;
+            //System.out.println("wlazl, tera wazymy: "+shipCapacityCurent.weight);
+        }
+        //else System.out.println("nie wlezie");
 
     }
 }

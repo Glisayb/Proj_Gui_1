@@ -3,7 +3,7 @@ package Models;
 public enum Days {
     ContToxicLoose(14),
     ContToxicLiquid(10),
-    ContExplosives(5),
+    ContExplosive(5),
     ContBasic(0);
 
     int maxStorage;

@@ -1,30 +1,35 @@
 package Models;
 
-import Models.Containers.ContBasic;
-import Models.Containers.ContExplosive;
-import Models.Containers.ContToxicLiquid;
-import Models.Containers.ContToxicLoose;
+import Models.Containers.*;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class WarehouseItem {
     ContBasic container;
-    Days counter;
+    LocalDate expirationDate;
 
-    WarehouseItem(ContToxicLoose container){
+    public WarehouseItem(ContBasic container, LocalDate loadDate){
+        this.container = container;
+        expirationDate = null;
+    }
+
+    WarehouseItem(ContToxicLoose container, LocalDate loadDate){
 
         this.container = container;
-        counter = Days.ContToxicLoose;
+        expirationDate = loadDate.plusDays(Days.ContToxicLoose.maxStorage);
 
     }
-    WarehouseItem(ContToxicLiquid container){
+    WarehouseItem(ContToxicLiquid container, LocalDate loadDate){
 
         this.container = container;
-        counter = Days.ContToxicLiquid;
+        expirationDate = loadDate.plusDays(Days.ContToxicLiquid.maxStorage);
 
     }
-    WarehouseItem(ContExplosive container){
+    WarehouseItem(ContExplosive container,  LocalDate loadDate){
 
         this.container = container;
-        counter = Days.ContExplosives;
+        expirationDate = loadDate.plusDays(Days.ContExplosive.maxStorage);
 
     }
     WarehouseItem(ContBasic container){
