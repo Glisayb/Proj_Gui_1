@@ -6,15 +6,15 @@ public class ShipCapacityInfo {
     double weight;
     int heavy;
     int electrified;
-    int hazzardous;
+    int hazardous;
 
-    public ShipCapacityInfo(int capacity, double weight, int heavy, int electrified, int hazzardous) {
+    public ShipCapacityInfo(int capacity, double weight, int heavy, int electrified, int hazardous) {
 
         this.capacity = capacity;
         this.weight = weight;
         this.heavy = heavy;
         this.electrified = electrified;
-        this.hazzardous = hazzardous;
+        this.hazardous = hazardous;
     }
     public ShipCapacityInfo() {
 
@@ -22,7 +22,7 @@ public class ShipCapacityInfo {
         this.weight = 0;
         this.heavy = 0;
         this.electrified = 0;
-        this.hazzardous = 0;
+        this.hazardous = 0;
     }
 
 }

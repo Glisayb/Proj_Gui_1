@@ -1,11 +1,8 @@
 package Models.Containers;
 
-public interface IContCooling extends IContElectrified {
+public interface IContElectrified {
 
-    @Override
     double getAmperage();
-
-    @Override
     void setAmperage(double amperage);
 
 }

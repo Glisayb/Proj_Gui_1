@@ -18,7 +18,11 @@ int insuranceValue;
 
     }
 
-    public double getWeight() {
-        return weight;
+    @Override
+    public String toString() {
+        return ("Conteiner ID:" + id );
     }
+
+    public double getWeight() {
+        return weight;}
 }
