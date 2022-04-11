@@ -7,7 +7,6 @@ public class Warehouse {
 
     String name;
     int capacity;
-    int stored;
 
     public Warehouse(String name, int capacity){
 
@@ -15,16 +14,13 @@ public class Warehouse {
         this.capacity = capacity;
 
     }
-    ArrayList<WarehouseItem> warCollection = new ArrayList<>();
+    ArrayList<WarehouseItem> warCollection = new ArrayList<WarehouseItem>(capacity);
 
-    public void storeInWarehouse(ContBasic container){
-        if (stored<capacity) {
-
+    public void storeInWarehouse(ContBasic container) throws ArrayStoreException {
+        if (warCollection.size()<capacity) {
             warCollection.add(new WarehouseItem(container));
-            stored++;
-
         }
-        else System.out.println("Magazyn przepelnion");
+        else throw new ArrayStoreException("Warehouse (mocno) FULL");
     }
 
 }
