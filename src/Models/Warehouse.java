@@ -1,9 +1,7 @@
 package Models;
 
-
 import Models.Containers.ContBasic;
-
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class Warehouse {
 
@@ -17,7 +15,7 @@ public class Warehouse {
         this.capacity = capacity;
 
     }
-    LinkedHashSet<WarehouseItem> warCollection = new LinkedHashSet<>();
+    ArrayList<WarehouseItem> warCollection = new ArrayList<>();
 
     public void storeInWarehouse(ContBasic container){
         if (stored<capacity) {
