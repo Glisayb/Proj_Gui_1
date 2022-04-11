@@ -3,6 +3,8 @@ package Models;
 import Models.Containers.*;
 import com.company.StaticClasses;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -105,6 +107,12 @@ public class Ship {
         }
         else System.out.println("nie wlezie");
                 */
+
+        }
+        public void farwell(Ship ship, LocalTime time){
+            System.out.println(new StringBuilder().append(ship.name).append(" ETD :").append(time).toString());
+            System.out.println("Farwell miss "+ship.name);
+            ship = null;
 
         }
 
