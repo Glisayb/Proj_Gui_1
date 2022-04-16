@@ -11,13 +11,12 @@ public class Ship {
     String destination;
 
     //ID.
-    String shipId;
+    private String shipId;
 
     //ship capacity
     ShipCapacityInfo shipCapacityMax;
-    ShipCapacityInfo shipCapacityCurent;
 
-    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityMax, ShipCapacityInfo shipCapacityCurent ){
+    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityMax){
 
         shipId = StaticClasses.IdGenerator.Generate();
 
@@ -27,25 +26,12 @@ public class Ship {
         this.destination = destination;
 
         this.shipCapacityMax = shipCapacityMax;
-        this.shipCapacityCurent = shipCapacityCurent;
 
     }
 
     public void loadContainer(ContBasic container){
         int newCapacity;
         double newWeight;
-
-        //newCapacity = shipCapacityCurent.capacity + 1;
-        //newWeight = shipCapacityCurent.weight + container.getWeight();
-
-        //if (newWeight <= shipCapacityMax.weight && newCapacity <= shipCapacityCurent.capacity)
-        {
-
-          //  shipCapacityCurent.capacity = newCapacity;
-            //shipCapacityCurent.weight = newWeight;
-            //System.out.println("wlazl, tera wazymy: "+shipCapacityCurent.weight);
-        }
-        //else System.out.println("nie wlezie");
 
     }
 }
