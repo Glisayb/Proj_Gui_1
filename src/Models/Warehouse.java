@@ -19,50 +19,69 @@ public class Warehouse {
     }
     ArrayList<WarehouseItem> warCollection = new ArrayList<WarehouseItem>();
 
-    public WarehouseItem find(String id) throws WarehouseItemNotFoundException {
+    public WarehouseItem getItemById(String id)
+            throws WarehouseItemNotFoundException {
 
-        Optional<WarehouseItem> any = warCollection.stream().filter(WarehouseItem -> id == WarehouseItem.getId()).findFirst();
+        Optional<WarehouseItem> any = warCollection.stream().
+                filter(WarehouseItem -> id == WarehouseItem.getId()).findFirst();
             if (any.isPresent())
                 return any.get();
-            else throw new WarehouseItemNotFoundException(id);
+            else
+                throw new WarehouseItemNotFoundException
+                        (id, name);
                 }
 
-    public void storeInWarehouse(ContBasic container) throws WarehouseStorageCapacityExceededException {
+    public void storeInWarehouse(ContBasic container)
+            throws WarehouseStorageCapacityExceededException {
         if (warCollection.size()<capacity) {
             warCollection.add(new WarehouseItem(container));
         }
-        else throw new WarehouseStorageCapacityExceededException(container.getId(), capacity);
+        else
+            throw new WarehouseStorageCapacityExceededException
+                    (container.getId(), name, capacity);
     }
 
-    public ContBasic pickFromWarehouse(String id) throws WarehouseItemNotFoundException {
-        WarehouseItem item = find(id);
+    public ContBasic pickFromWarehouse(String id)
+            throws WarehouseItemNotFoundException {
+
+        WarehouseItem item = getItemById(id);
         warCollection.remove(item);
-        return (item.getContainer()) ;
+        return (item.getContainer());
     }
 
-    public void loadIntoShip(Ship ship, String id) throws WarehouseItemNotFoundException {
+    public void loadIntoShip(Ship ship, String id)
+            throws WarehouseItemNotFoundException {
+
         ship.loadContainer(pickFromWarehouse(id));
     }
 
     public void showCapacity(){
-        System.out.println("Aktualny stan magazynu to: "+warCollection.size()+" z "+capacity);
+        System.out.printf("Actual '%s' warehouse capacity is: %d of all possible %d warehouse capacity%n",
+                name, warCollection.size(), capacity);
     }
 
     public void showAll(){
-        warCollection.stream().map(x -> x.getContainer().getId()).forEach(System.out::println);
+
+        warCollection.stream().
+                map(x -> x.getContainer().getId()).
+                forEach(System.out::println);
     }
 
     public void loadAllIntoShip(Ship ship){
         int size = warCollection.size();
+
         for (int i = size-1; i>=0; i--){
             ship.loadContainer(warCollection.get(i).getContainer());
             warCollection.remove(i);
         }
     }
 
-    public void loadIntoShipList(Ship ship, String[] list) throws WarehouseItemNotFoundException {
+    public void loadIntoShipList(Ship ship, String[] list)
+            throws WarehouseItemNotFoundException {
+
         for (int i = list.length - 1; i >= 0; i--) {
             loadIntoShip(ship, list[i]);
         }
     }
+
 }

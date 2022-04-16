@@ -2,10 +2,12 @@ package Exceptions;
 
 public class ContainerStorageCapacityExceededException extends Exception{
 
-    public ContainerStorageCapacityExceededException(){
-        super();
+    public ContainerStorageCapacityExceededException(String id, String name, int capacity){
+
+        super(String.format
+                ("Container with id: %s would exceed '%s' ship capacity of: %d",
+                        id, name, capacity));
+
     }
-    public ContainerStorageCapacityExceededException(String reason){
-        super(reason);
-    }
+
 }

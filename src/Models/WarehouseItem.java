@@ -14,24 +14,29 @@ public class WarehouseItem {
 
     public WarehouseItem(ContToxicLoose container, LocalDate loadDate) {
         this.container = container;
-        expirationDate = loadDate.plusDays(Days.ContToxicLoose.maxStorage);
+        expirationDate = loadDate.plusDays
+                (Days.ContToxicLoose.maxStorage);
     }
 
     public WarehouseItem(ContToxicLiquid container, LocalDate loadDate) {
         this.container = container;
-        expirationDate = loadDate.plusDays(Days.ContToxicLiquid.maxStorage);
+        expirationDate = loadDate.plusDays
+                (Days.ContToxicLiquid.maxStorage);
     }
 
     public WarehouseItem(ContExplosive container, LocalDate loadDate) {
         this.container = container;
-        expirationDate = loadDate.plusDays(Days.ContExplosive.maxStorage);
+        expirationDate = loadDate.plusDays
+                (Days.ContExplosive.maxStorage);
     }
 
     public WarehouseItem(ContBasic container) {
+
         this.container = container;
     }
 
     public String getId() {
+
         return container.getId();
     }
 
