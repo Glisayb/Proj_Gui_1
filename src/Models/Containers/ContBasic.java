@@ -18,6 +18,11 @@ int insuranceValue;
 
     }
 
+    public String getId() {
+        return id;
+    }
+
+
     @Override
     public String toString() {
         return ("Conteiner ID:" + id );
