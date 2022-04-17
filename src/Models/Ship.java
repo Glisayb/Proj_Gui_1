@@ -1,5 +1,6 @@
 package Models;
 
+import Models.Containers.ContBasic;
 import com.company.StaticClasses;
 
 public class Ship {
@@ -10,11 +11,12 @@ public class Ship {
     String destination;
 
     //ID.
-    String shipId;
+    private String shipId;
 
-    ShipCapacityInfo shipCapacityInfo;
+    //ship capacity
+    ShipCapacityInfo shipCapacityMax;
 
-    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityInfo){
+    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityMax){
 
         shipId = StaticClasses.IdGenerator.Generate();
 
@@ -23,7 +25,13 @@ public class Ship {
         this.from = from;
         this.destination = destination;
 
-        this.shipCapacityInfo = shipCapacityInfo;
+        this.shipCapacityMax = shipCapacityMax;
+
+    }
+
+    public void loadContainer(ContBasic container){
+        int newCapacity;
+        double newWeight;
 
     }
 }

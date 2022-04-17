@@ -17,4 +17,9 @@ int insuranceValue;
         this.insuranceValue = insuranceValue;
 
     }
+
+    public String getId() {
+        return id;
+    }
+
 }
