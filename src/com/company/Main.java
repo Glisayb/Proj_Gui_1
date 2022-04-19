@@ -6,6 +6,7 @@ import Models.*;
 import Models.Containers.ContBasic;
 import Models.Containers.ContHeavy;
 import Models.Containers.ContToxicLiquid;
+import Persistance.ShipPersistance;
 
 import java.time.LocalDate;
 
@@ -13,12 +14,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ShipCapacityInfo intel1 = new ShipCapacityInfo(44,21.37,10,7,13);
+        ShipCapacityInfo intel1 = new ShipCapacityInfo(44,2137,10,7,13);
         ShipCapacityInfo intel2 = new ShipCapacityInfo(1245,123,3,1,7);
         Ship latajacy = new Ship("latajacyholender","Amsterdam","Borholm","Danzig", intel1);
         Ship IzabelaLecka = new Ship ("Izabela", "Warszawa", "Lodz","London", intel2);
         Warehouse WZ =new Warehouse("wschodniozachodni", 3);
-        ContHeavy grubas = new ContHeavy(22,44,200);
+        ContHeavy grubas = new ContHeavy(222,44,200);
         ContToxicLiquid bimber = new ContToxicLiquid( 121,33,90900,92.7, Pollutions.ALKOHOLIC,"Skittlesowka");
         System.out.println(bimber.getDensity());
 
@@ -35,10 +36,16 @@ public class Main {
             String[] krypy = new String[2];
             krypy[0] = bimber.getId();
             krypy[1] = grubas.getId();
-            WZ.storeInWarehouse(grubas);
             WZ.storeInWarehouse(bimber);
+            WZ.storeInWarehouse(grubas);
             WZ.loadIntoShipList(latajacy, krypy);
             WZ.showAll();
+            var huj = new ShipPersistance(latajacy);
+            var pizda = huj.PrepareToSave();
+            huj.CreateShipFromString(":");
+
+            System.out.println(pizda);
+
         }catch(Exception e){
 
         }

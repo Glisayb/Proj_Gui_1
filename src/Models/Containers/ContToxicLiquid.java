@@ -36,7 +36,7 @@ public class ContToxicLiquid extends ContHeavy implements IContToxicLiquid{
 
     @Override
     public String getCompoundName() {
-        return null;
+        return compoundName;
     }
 
     @Override

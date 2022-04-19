@@ -13,20 +13,30 @@ import java.util.ArrayList;
 
 public class Ship {
     //basic info
-    String name;
-    String homeport;
-    String from;
-    String destination;
+    public String name;
+    public String homeport;
+    public String from;
+    public String destination;
 
     //ID.
-    private String shipId;
+    public String shipId;
 
     //ship capacity
-    ArrayList<ContBasic> containerList;
-    ShipCapacityInfo shipCapacityMax;
+    public ArrayList<ContBasic> containerList;
+    public ShipCapacityInfo shipCapacityMax;
 
 
-    public Ship(String name,String homeport,String from,String destination, ShipCapacityInfo shipCapacityMax){
+    public Ship(String name, String homeport, String from, String destination, String shipId, ArrayList<ContBasic> containerList, ShipCapacityInfo shipCapacityMax) {
+        this.name = name;
+        this.homeport = homeport;
+        this.from = from;
+        this.destination = destination;
+        this.shipId = shipId;
+        this.containerList = containerList;
+        this.shipCapacityMax = shipCapacityMax;
+    }
+
+    public Ship(String name, String homeport, String from, String destination, ShipCapacityInfo shipCapacityMax){
 
         containerList = new ArrayList<ContBasic>(shipCapacityMax.capacity);
         shipId = StaticClasses.IdGenerator.Generate();
@@ -50,7 +60,7 @@ public class Ship {
 
         //Czy mamy miejsce
         long contBasicCount = containerList.size();
-        if (shipCapacityMax.capacity >= contBasicCount) {
+        if (shipCapacityMax.capacity <= contBasicCount) {
             throw new ContainerStorageCapacityExceededException(container.getId(), name, shipCapacityMax.capacity);
                     }
 
@@ -59,7 +69,7 @@ public class Ship {
                 .mapToDouble(ContBasic::getWeight)
                 .sum()
                 + container.getWeight();
-        if (shipCapacityMax.weight >= contBasicWeightCount) {
+        if (shipCapacityMax.weight <= contBasicWeightCount) {
             double overWeight =  contBasicWeightCount - shipCapacityMax.weight;
             throw new ContainerStorageWeightExceededException(container.getId(), name, overWeight);
         }
@@ -69,7 +79,7 @@ public class Ship {
             if (container instanceof IContHazardous) {
                 long contToxicHazardousCount = containerList.stream().
                         filter(x -> x instanceof IContHazardous).count();
-                if (shipCapacityMax.hazardous >= contToxicHazardousCount) {
+                if (shipCapacityMax.hazardous <= contToxicHazardousCount) {
                     throw new HazardousContainerStorageExceededException(container.getId(), name, shipCapacityMax.hazardous);
                 }
             }
@@ -77,7 +87,7 @@ public class Ship {
             if (container instanceof IContElectrified) {
                 long contPowerGridCount = containerList.stream().
                         filter(x -> x instanceof IContElectrified).count();
-                if (shipCapacityMax.electrified >= contPowerGridCount) {
+                if (shipCapacityMax.electrified <= contPowerGridCount) {
                     throw new ElectrifiedContainerStorageExceededException(container.getId(), name, shipCapacityMax.electrified);
                 }
             }
@@ -85,7 +95,7 @@ public class Ship {
             if (container instanceof IContHeavy) {
                 long contHeavyCount = containerList.stream().
                         filter(x -> x instanceof IContHeavy).count();
-                if (shipCapacityMax.heavy >= contHeavyCount) {
+                if (shipCapacityMax.heavy <= contHeavyCount) {
                     throw new HeavyContainerStorageExceededException(container.getId(), name, shipCapacityMax.heavy);
                 }
             }
@@ -104,7 +114,6 @@ public class Ship {
             //jak usunac statek
             //ship = null;
         }
-
-    }
+}
 
 

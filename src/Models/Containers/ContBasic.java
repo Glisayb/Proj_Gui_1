@@ -5,7 +5,6 @@ import com.company.StaticClasses;
 public class ContBasic {
 
 String id;
-
 double weight;
 int insuranceValue;
 
