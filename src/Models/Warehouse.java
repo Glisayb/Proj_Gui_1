@@ -1,5 +1,6 @@
 package Models;
 
+import Exceptions.Ship.*;
 import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseStorageCapacityExceededException;
 import Models.Containers.ContBasic;
@@ -17,7 +18,7 @@ public class Warehouse {
         this.capacity = capacity;
 
     }
-    ArrayList<WarehouseItem> warCollection = new ArrayList<WarehouseItem>();
+    ArrayList<WarehouseItem> warCollection = new ArrayList<>();
 
     public WarehouseItem getItemById(String id)
             throws WarehouseItemNotFoundException {
@@ -50,7 +51,7 @@ public class Warehouse {
     }
 
     public void loadIntoShip(Ship ship, String id)
-            throws WarehouseItemNotFoundException {
+            throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         ship.loadContainer(pickFromWarehouse(id));
     }
@@ -67,7 +68,7 @@ public class Warehouse {
                 forEach(System.out::println);
     }
 
-    public void loadAllIntoShip(Ship ship){
+    public void loadAllIntoShip(Ship ship) throws HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
         int size = warCollection.size();
 
         for (int i = size-1; i>=0; i--){
@@ -77,7 +78,7 @@ public class Warehouse {
     }
 
     public void loadIntoShipList(Ship ship, String[] list)
-            throws WarehouseItemNotFoundException {
+            throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         for (int i = list.length - 1; i >= 0; i--) {
             loadIntoShip(ship, list[i]);
