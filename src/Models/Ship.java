@@ -1,9 +1,12 @@
 package Models;
 
-import Models.Containers.*;
+import Exceptions.Ship.*;
+import Models.Containers.ContBasic;
+import Models.Containers.IContElectrified;
+import Models.Containers.IContHazardous;
+import Models.Containers.IContHeavy;
 import com.company.StaticClasses;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -38,53 +41,68 @@ public class Ship {
     }
 
     public void loadContainer(ContBasic container)
-            throws ArrayStoreException {
+            throws
+            ContainerStorageCapacityExceededException,
+            ContainerStorageWeightExceededException,
+            HazardousContainerStorageExceededException,
+            HeavyContainerStorageExceededException,
+            ElectrifiedContainerStorageExceededException {
 
-        if(container instanceof IContHazardous){
-            long contToxicHazardousCount = containerList.stream().
-                    filter(x -> x instanceof IContHazardous).count();
-            if(shipCapacityMax.hazardous >= contToxicHazardousCount) {
-                throw new ArrayStoreException("contHazardousCount over " + contToxicHazardousCount + container.toString());
-            }
+        //Czy mamy miejsce
+        long contBasicCount = containerList.size();
+        if (shipCapacityMax.capacity >= contBasicCount) {
+            throw new ContainerStorageCapacityExceededException(container.getId(), name, shipCapacityMax.capacity);
+                    }
+
+        //Czy starczy nośności
+        double contBasicWeightCount = containerList.stream()
+                .mapToDouble(ContBasic::getWeight)
+                .sum()
+                + container.getWeight();
+        if (shipCapacityMax.weight >= contBasicWeightCount) {
+            double overWeight =  contBasicWeightCount - shipCapacityMax.weight;
+            throw new ContainerStorageWeightExceededException(container.getId(), name, overWeight);
         }
 
-        if(container instanceof IContElectrified){
-            long contPowerGridCount = containerList.stream().
-                    filter(x -> x instanceof IContElectrified).count();
-            if (shipCapacityMax.electrified >= contPowerGridCount) {
-                throw new ArrayStoreException("contElectrifiedCount over " + contPowerGridCount + container.toString());
+        //Sekcja sprawdzająca dostępność dla konkretnych typów
+        {
+            if (container instanceof IContHazardous) {
+                long contToxicHazardousCount = containerList.stream().
+                        filter(x -> x instanceof IContHazardous).count();
+                if (shipCapacityMax.hazardous >= contToxicHazardousCount) {
+                    throw new HazardousContainerStorageExceededException(container.getId(), name, shipCapacityMax.hazardous);
+                }
+            }
+
+            if (container instanceof IContElectrified) {
+                long contPowerGridCount = containerList.stream().
+                        filter(x -> x instanceof IContElectrified).count();
+                if (shipCapacityMax.electrified >= contPowerGridCount) {
+                    throw new ElectrifiedContainerStorageExceededException(container.getId(), name, shipCapacityMax.electrified);
+                }
+            }
+
+            if (container instanceof IContHeavy) {
+                long contHeavyCount = containerList.stream().
+                        filter(x -> x instanceof IContHeavy).count();
+                if (shipCapacityMax.heavy >= contHeavyCount) {
+                    throw new HeavyContainerStorageExceededException(container.getId(), name, shipCapacityMax.heavy);
+                }
             }
         }
-
-        if(container instanceof IContHeavy){
-            long contHeavyCount = containerList.stream().
-                    filter(x -> x instanceof IContHeavy).count();
-            if (shipCapacityMax.heavy >= contHeavyCount) {
-                throw new ArrayStoreException("contToxicCount over " + contHeavyCount + container.toString());
-            }
-        }
-
-                    double contBasicWeightCount = containerList.stream()
-                    .mapToDouble(ContBasic::getWeight)
-                    .sum();
-                    if (shipCapacityMax.weight >= contBasicWeightCount) {
-                        throw new ArrayStoreException("contBasicWeightCount over " + contBasicWeightCount + container.toString());
-            }
-
-                    long contBasicCount = containerList.size();
-                    if (shipCapacityMax.capacity >= contBasicCount) {
-                        throw new ArrayStoreException("contBasicCount over " + contBasicCount + container.toString());
-            }
-
-            //basic current capacity info
-            containerList.add(container);
+        //Ostatecznie gdy wszystkie powyzsze warunki przejda dodajemy kontener
+        containerList.add(container);
 
         }
-        public void farwell(Ship ship, LocalTime time){
-            System.out.println(new StringBuilder().append(ship.name).append(" ETD :").append(time).toString());
-            System.out.println("Farwell miss "+ship.name);
-            ship = null;
-
+        public void farewell(){
+            LocalTime time = LocalTime.now();
+            System.out.println(name + " ETD :" + time +
+                     "\n Farwell miss "+ name );
+            String.format
+                    ("%s ETD: %s \n Farwell miss  %s",
+                            name,  time, name);
+            //jak usunac statek
+            //ship = null;
         }
 
     }

@@ -1,4 +1,4 @@
-package Exceptions;
+package Exceptions.Ship;
 
 public class ContainerStorageCapacityExceededException extends Exception{
 
