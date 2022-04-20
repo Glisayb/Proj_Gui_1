@@ -8,7 +8,11 @@ public class ContCooling extends ContHeavy implements IContCooling{
 
         super(weight, insuranceValue, iso);
         this.amperage = amperage;
+    }
+    public ContCooling(String id, double weight, int insuranceValue, int iso, double amperage) {
 
+        super(id, weight, insuranceValue, iso);
+        this.amperage = amperage;
     }
 
     @Override

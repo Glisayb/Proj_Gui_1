@@ -8,6 +8,11 @@ public class ContExplosive extends ContHeavy implements IContExplosive{
         super(weight, insuranceValue, iso);
         this.blastRadius = blastRadius;
     }
+    public ContExplosive(String id, double weight, int insuranceValue, int iso, double blastRadius) {
+
+        super(id, weight, insuranceValue, iso);
+        this.blastRadius = blastRadius;
+    }
 
     @Override
     public double getBlastRadius() {

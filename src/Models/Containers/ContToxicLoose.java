@@ -10,7 +10,12 @@ public class ContToxicLoose extends ContHeavy implements IContToxicLoose{
         super(weight, insuranceValue, iso);
         setPollutionType(pollutionType);
         this.isSublimating = isSublimating;
+    }
+    public ContToxicLoose(String id, double weight, int insuranceValue, int iso, Pollutions pollutionType, boolean isSublimating) {
 
+        super(id, weight, insuranceValue, iso);
+        setPollutionType(pollutionType);
+        this.isSublimating = isSublimating;
     }
 
     @Override

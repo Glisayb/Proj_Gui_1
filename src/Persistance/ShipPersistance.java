@@ -1,6 +1,7 @@
 package Persistance;
 
 import Models.Containers.*;
+import Models.Pollutions;
 import Models.Ship;
 import Models.ShipCapacityInfo;
 
@@ -52,7 +53,7 @@ public class ShipPersistance {
         sb.append(String.format("Port wyjściowy : %s \n", ship.from));
 
         sb.append("Maksymalna Pojemność statku :\n\t");
-        sb.append(String.format("Ogólna pojemnoś : %s \n\t", ship.shipCapacityMax.capacity));
+        sb.append(String.format("Ogólna pojemność : %s \n\t", ship.shipCapacityMax.capacity));
         sb.append(String.format("Ogolna nośność : %s \n\t", ship.shipCapacityMax.weight));
         sb.append(String.format("Kontenery z podłączeniem do prądu : %s \n\t", ship.shipCapacityMax.electrified));
         sb.append(String.format("Kontenery niebezpieczne : %s \n\t", ship.shipCapacityMax.hazardous));
@@ -66,27 +67,28 @@ public class ShipPersistance {
             ContBasic container = sortedContainers.get(i);
             sb.append("\t" + (i + 1) + ". ");
             sb.append(String.format("\tId Kontenera : %s \n\t\t", container.getId()));
+            sb.append(String.format("Wysokość ubezpieczenia : %s \n\t\t", container.getInsuranceValue()));
             sb.append(String.format("Waga Kontenera : %s", container.getWeight()));
             if (container instanceof ContCooling) {
                 sb.append(GenerateContCoolingString((ContCooling) container));
             }
-            if (container instanceof ContExplosive) {
+            else if (container instanceof ContExplosive) {
                 sb.append(GenerateContExplosiveString((ContExplosive) container));
             }
-            if (container instanceof ContHeavy) {
-                sb.append(GenerateContHeavyString((ContHeavy) container));
+            else if (container instanceof ContToxicLiquid) {
+                sb.append(GenerateContToxicLiquidString((ContToxicLiquid) container));
             }
-            if (container instanceof ContLiquid) {
+            else if (container instanceof ContToxicLoose) {
+                sb.append(GenerateContToxicLooseString((ContToxicLoose) container));
+            }
+            else if (container instanceof ContLiquid) {
                 sb.append(GenerateContLiquidString((ContLiquid) container));
+            }
+            else if (container instanceof ContHeavy) {
+                sb.append(GenerateContHeavyString((ContHeavy) container));
             }
             if (container instanceof IContToxic) {
                 sb.append(GenerateContToxicString((IContToxic) container));
-            }
-            if (container instanceof ContToxicLiquid) {
-                sb.append(GenerateContToxicLiquidString((ContToxicLiquid) container));
-            }
-            if (container instanceof ContToxicLoose) {
-                sb.append(GenerateContToxicLooseString((ContToxicLoose) container));
             }
             if(!sb.toString().contains("Typ kontenera : ")){
                 sb.append(GenerateBasicContString(container));
@@ -106,7 +108,7 @@ public class ShipPersistance {
     private Pattern homePortPattern = Pattern.compile("Port macierzysty : (.*) \\n");
     private Pattern destinationPattern = Pattern.compile("Port docelowy : (.*) \\n");
     private Pattern fromPattern = Pattern.compile("Port wyjściowy : (.*) \\n");
-    private Pattern capacityPattern = Pattern.compile("Ogólna pojemnoś : (.*) \\n");
+    private Pattern capacityPattern = Pattern.compile("Ogólna pojemność : (.*) \\n");
     private Pattern weightPattern = Pattern.compile("Ogolna nośność : (.*) \\n");
     private Pattern electrifiedPattern = Pattern.compile("Kontenery z podłączeniem do prądu : (.*) \\n");
     private Pattern hazardousPattern = Pattern.compile("Kontenery niebezpieczne : (.*) \\n");
@@ -118,7 +120,8 @@ public class ShipPersistance {
     // patterny propertasów kontenerów
     private Pattern containerIdPattern = Pattern.compile("Id Kontenera : (.*) \\n");
     private Pattern containerTypePattern = Pattern.compile("Typ kontenera : (.*) \\n");
-    private Pattern containerCompoundName = Pattern.compile("Nazwa Płynu : (.*) \\n");
+    private Pattern containerInsurancePattern = Pattern.compile("Wysokość ubezpieczenia : (.*) \\n");
+    private Pattern containerCompoundName = Pattern.compile("Nazwa płynu : (.*) \\n");
     private Pattern containerIsoPattern = Pattern.compile("Iso : (.*)\\n");
     private Pattern containerDensity = Pattern.compile("Gęstość : (.*) \\n");
     private Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów : (.*) \\n");
@@ -169,13 +172,61 @@ public class ShipPersistance {
         else
             return  null;
     }
-
-    private ContCooling GenerateCoolingConatiner(String containerString) {
+    private ContLiquid GenerateLiquidConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
         double weight = getDoubleProperty(containerString, containerWeightPattern);
-        int insuranceValue = 2; // dorobić patern trzeba 
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        int iso  = getIntProperty(containerString, containerIsoPattern);
+        double density = getDoubleProperty(containerString, containerDensity);
+        return new ContLiquid(id,weight,insuranceValue,density);
+    }
+    private ContToxicLiquid GenerateToxicLiquidConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        int iso  = getIntProperty(containerString, containerIsoPattern);
+        Pollutions pollutionType = Pollutions.valueOf(getStringProperty(containerString, containerPollutionType));
+        double density = getDoubleProperty(containerString, containerDensity);
+        String compoundName = getStringProperty(containerString, containerCompoundName);
+        return new ContToxicLiquid(id,weight,insuranceValue,iso,density,pollutionType,compoundName);
+    }
+    private ContToxicLoose GenerateToxicLooseConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        int iso  = getIntProperty(containerString, containerIsoPattern);
+        Pollutions pollutionType = Pollutions.valueOf(getStringProperty(containerString, containerPollutionType));
+        Boolean isSublimating = getStringProperty(containerString, containerIsSublimating)=="tak"?true:false;
+        return new ContToxicLoose(id,weight,insuranceValue,iso,pollutionType,isSublimating);
+    }
+    private ContExplosive GenerateExplosiveConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        int iso  = getIntProperty(containerString, containerIsoPattern);
+        double blastradius = getDoubleProperty(containerString, containerBlastRadius);
+        return new ContExplosive(id,weight,insuranceValue,iso,blastradius);
+    }
+    private ContCooling GenerateCoolingConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
         int iso  = getIntProperty(containerString, containerIsoPattern);;
         double amperage = getDoubleProperty(containerString, containerAmperagePattern);
-        return  new ContCooling(weight,insuranceValue,iso,amperage);
+        return new ContCooling(id,weight,insuranceValue,iso,amperage);
+    }
+    private ContHeavy GenerateHeavyConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        int iso  = getIntProperty(containerString, containerIsoPattern);;
+        return new ContHeavy(id,weight,insuranceValue,iso);
+    }
+    private ContBasic GenerateBasicConatiner(String containerString) {
+        String id = getStringProperty(containerString, containerIdPattern);
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = getIntProperty(containerString, containerInsurancePattern);
+        return new ContBasic(id,weight,insuranceValue);
     }
 
 
@@ -218,13 +269,14 @@ public class ShipPersistance {
     private String GenerateBasicContString(ContBasic container) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.BASIC.name));
+        contDetails.append(String.format("Wysokość ubezpieczenia : %s", container.getInsuranceValue()));
         return contDetails.toString();
     }
 
     private String GenerateContToxicLiquidString(ContToxicLiquid container) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.TOXIC_LIQUID.name));
-        contDetails.append(String.format("Nazwa Płynu : %s", container.getCompoundName()));
+        contDetails.append(String.format("Nazwa płynu : %s", container.getCompoundName()));
         return contDetails.toString();
     }
 

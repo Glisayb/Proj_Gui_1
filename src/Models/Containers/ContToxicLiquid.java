@@ -11,7 +11,13 @@ public class ContToxicLiquid extends ContHeavy implements IContToxicLiquid{
         setDensity(density);
         setPollutionType(pollutionType);
         this.compoundName = compoundName;
+    }
+    public ContToxicLiquid(String id, double weight, int insuranceValue, int iso, double density, Pollutions pollutionType, String compoundName) {
 
+        super(id, weight, insuranceValue, iso);
+        setDensity(density);
+        setPollutionType(pollutionType);
+        this.compoundName = compoundName;
     }
 
     @Override

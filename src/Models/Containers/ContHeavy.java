@@ -6,7 +6,13 @@ public class ContHeavy extends ContBasic implements IContHeavy{
 
     public ContHeavy(double weight, int insuranceValue, int iso){
 
-        super(weight,insuranceValue);
+        super(weight, insuranceValue);
+        this.iso = iso;
+
+    }
+    public ContHeavy(String id, double weight, int insuranceValue, int iso){
+
+        super(id, weight, insuranceValue);
         this.iso = iso;
 
     }
