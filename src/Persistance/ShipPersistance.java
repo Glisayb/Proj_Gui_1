@@ -6,6 +6,7 @@ import Models.ShipCapacityInfo;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -14,6 +15,21 @@ public class ShipPersistance {
 
     private Ship ship;
 
+    private enum ContainerType {
+        HEAVY("Ciężki"),
+        TOXIC_LIQUID("Toksyczny płynny"),
+        TOXIC_LOOSE("Toksyczny sypki"),
+        LIQUID("Płynny"),
+        EXPLOSIVE("Wybuchowy"),
+        COOLING("Lodówka"),
+        BASIC("Zwykły");
+        private String name;
+        ContainerType(String name){
+
+            this.name = name;
+        }
+
+    }
     private String heavyContainerName = "Ciężki";
     private String toxicLiquidContainerName = "Toksyczny płynny";
     private String toxicLooseContainerName = "Toksyczny sypki";
@@ -46,8 +62,8 @@ public class ShipPersistance {
         var sortedContainers = ship.containerList.stream().sorted(weightComparator).collect(Collectors.toList());
 
         sb.append("Kontenery na statku :\n");
-        for (int i = 0; i < ship.containerList.size(); i++) {
-            ContBasic container = ship.containerList.get(i);
+        for (int i = 0; i < sortedContainers.size(); i++) {
+            ContBasic container = sortedContainers.get(i);
             sb.append("\t" + (i + 1) + ". ");
             sb.append(String.format("\tId Kontenera : %s \n\t\t", container.getId()));
             sb.append(String.format("Waga Kontenera : %s", container.getWeight()));
@@ -72,9 +88,12 @@ public class ShipPersistance {
             if (container instanceof ContToxicLoose) {
                 sb.append(GenerateContToxicLooseString((ContToxicLoose) container));
             }
+            if(!sb.toString().contains("Typ kontenera : ")){
+                sb.append(GenerateBasicContString(container));
+            }
             sb.append("\n\t\t---\n");
         }
-        sb.append("\t***\n\t\t");
+        sb.append("***\n\t\t");
         return sb.toString();
     }
 
@@ -88,7 +107,7 @@ public class ShipPersistance {
     private Pattern destinationPattern = Pattern.compile("Port docelowy : (.*) \\n");
     private Pattern fromPattern = Pattern.compile("Port wyjściowy : (.*) \\n");
     private Pattern capacityPattern = Pattern.compile("Ogólna pojemnoś : (.*) \\n");
-    private Pattern weightPattern = Pattern.compile("Ogolna nośność : %s (.*) \\n");
+    private Pattern weightPattern = Pattern.compile("Ogolna nośność : (.*) \\n");
     private Pattern electrifiedPattern = Pattern.compile("Kontenery z podłączeniem do prądu : (.*) \\n");
     private Pattern hazardousPattern = Pattern.compile("Kontenery niebezpieczne : (.*) \\n");
     private Pattern heavyPattern = Pattern.compile("Kontenery ciężkie : (.*) \\n");
@@ -98,60 +117,67 @@ public class ShipPersistance {
 
     // patterny propertasów kontenerów
     private Pattern containerIdPattern = Pattern.compile("Id Kontenera : (.*) \\n");
+    private Pattern containerTypePattern = Pattern.compile("Typ kontenera : (.*) \\n");
     private Pattern containerCompoundName = Pattern.compile("Nazwa Płynu : (.*) \\n");
-    private Pattern containerIso = Pattern.compile("Iso : (.*) \\n");
+    private Pattern containerIsoPattern = Pattern.compile("Iso : (.*)\\n");
     private Pattern containerDensity = Pattern.compile("Gęstość : (.*) \\n");
     private Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów : (.*) \\n");
     private Pattern containerPollutionType = Pattern.compile("Rodzaj niebezpieczeństwa : (.*) \\n");
     private Pattern containerBlastRadius = Pattern.compile("Zasięg rażenia : (.*) \\n");
-    private Pattern containerAmperage = Pattern.compile("Pobór prundu : (.*) \\n");
+    private Pattern containerAmperagePattern = Pattern.compile("Pobór prundu : (.*)\\n");
+    private Pattern containerWeightPattern = Pattern.compile("Waga Kontenera : (.*)\\n");
 
 
-    public Ship CreateShipFromString(String stream){
-        String statek = "Id statku : cd79dc9d-398b-4bdb-bb4b-573719a4e01c \n" +
-                "Nazwa statku : latajacyholender \n" +
-                "Port macierzysty : Amsterdam \n" +
-                "Port docelowy : Danzig \n" +
-                "Port wyjściowy : Borholm \n" +
-                "Maksymalna Pojemność statku :\n" +
-                "\tOgólna pojemnoś : 44 \n" +
-                "\tOgolna nośność : 2137.0 \n" +
-                "\tKontenery z podłączeniem do prądu : 7 \n" +
-                "\tKontenery niebezpieczne : 13 \n" +
-                "\tKontenery ciężkie : 10 \n" +
-                "\tKontenery na statku :\n" +
-                "\t1. \tId Kontenera : 9b98dead-9706-4625-acc7-cdd76e85f2d9 \n" +
-                "\t\tWaga Kontenera : 142.0\n" +
-                "\t\t---\n" +
-                "\t2. \tId Kontenera : e53c79c9-a74f-4172-af06-bc5a8dd3fcaa \n" +
-                "\t\tWaga Kontenera : 222.0\n" +
-                "\t\tTyp kontenera : Ciężki \n" +
-                "\t\tIso : 200\n" +
-                "\t\t---\n" +
-                "\t3. \tId Kontenera : a6a7cfb9-b8dc-4dcb-9eef-afe4172dd0d8 \n" +
-                "\t\tWaga Kontenera : 121.0\n" +
-                "\t\tTyp kontenera : Ciężki \n" +
-                "\t\tIso : 90900\n" +
-                "\t\tTyp kontenera : Toksyczny płynny \n" +
-                "\t\tNazwa Płynu : Skittlesowka\n" +
-                "\t\t---\n" +
-                "\t***";
+    public Ship CreateShipFromString(String shipString){
 
-        Ship shipWithProperties = getShipParamiters(statek);
+        Ship shipWithProperties = getShipParamiters(shipString);
+        ArrayList<ContBasic> shipContainers = new ArrayList<>();
 
-        var matchShip = containerPattern.matcher(statek);
+        var matchShip = containerPattern.matcher(shipString);
         while(matchShip.find()){
-            String container = matchShip.group(0);
-            var matchCont = containerIdPattern.matcher(container);
-            while(matchCont.find()){
-                String property = matchCont.group(0);
-                System.out.println(property);
-            }
+            String containerString = matchShip.group(0);
+            shipContainers.add(getContainerWithParameters(containerString));
         }
 
-        return null;
-
+        shipWithProperties.containerList = shipContainers;
+        return shipWithProperties;
     }
+
+    private ContBasic getContainerWithParameters(String containerString) {
+
+        String containerTypeString = getStringProperty(containerString, containerTypePattern);
+        ContBasic container = GetContainerType(containerTypeString, containerString);
+        return container;
+    }
+
+    private ContBasic GetContainerType(String containerTypeString, String containerString) {
+        if(Objects.equals(containerTypeString, ContainerType.COOLING.name))
+            return (ContBasic) GenerateCoolingConatiner(containerString);
+
+        else if(Objects.equals(containerTypeString, ContainerType.EXPLOSIVE.name))
+            return null;
+
+        else if(Objects.equals(containerTypeString, ContainerType.HEAVY.name))
+            return null;
+
+        else if(Objects.equals(containerTypeString, ContainerType.TOXIC_LIQUID.name))
+            return  null;
+
+        else if(Objects.equals(containerTypeString, ContainerType.TOXIC_LOOSE.name))
+            return  null;
+
+        else
+            return  null;
+    }
+
+    private ContCooling GenerateCoolingConatiner(String containerString) {
+        double weight = getDoubleProperty(containerString, containerWeightPattern);
+        int insuranceValue = 2; // dorobić patern trzeba 
+        int iso  = getIntProperty(containerString, containerIsoPattern);;
+        double amperage = getDoubleProperty(containerString, containerAmperagePattern);
+        return  new ContCooling(weight,insuranceValue,iso,amperage);
+    }
+
 
     public Ship getShipParamiters(String statek){
         String shipId = getStringProperty(statek, shipIdPattern);
@@ -189,30 +215,36 @@ public class ShipPersistance {
         return Double.parseDouble(propertyMatcher.group(1));
     }
 
+    private String GenerateBasicContString(ContBasic container) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.BASIC.name));
+        return contDetails.toString();
+    }
+
     private String GenerateContToxicLiquidString(ContToxicLiquid container) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", toxicLiquidContainerName));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.TOXIC_LIQUID.name));
         contDetails.append(String.format("Nazwa Płynu : %s", container.getCompoundName()));
         return contDetails.toString();
     }
 
     private String GenerateContHeavyString(ContHeavy contHeavy) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", heavyContainerName));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.HEAVY.name));
         contDetails.append(String.format("Iso : %s", contHeavy.getIso()));
         return contDetails.toString();
     }
 
     private String GenerateContLiquidString(ContLiquid contLiquid) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", liquidContainerName));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.LIQUID.name));
         contDetails.append(String.format("Gęstość : %d", contLiquid.getDensity()));
         return contDetails.toString();
     }
 
     private String GenerateContToxicLooseString(ContToxicLoose contToxicLoose) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", toxicLooseContainerName));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.TOXIC_LOOSE.name));
         contDetails.append(String.format("Niebezpieczeństwo trujących oparów : %s", contToxicLoose.getIsSublimating()?"tak":"nie"));
         return contDetails.toString();
     }
@@ -225,15 +257,15 @@ public class ShipPersistance {
 
     private String GenerateContExplosiveString(ContExplosive contExplosive) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", explosiveContainerName));
-        contDetails.append(String.format("Zasięg rażenia : %d", contExplosive.getBlastRadius()));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.EXPLOSIVE.name));
+        contDetails.append(String.format("Zasięg rażenia : %s", contExplosive.getBlastRadius()));
         return contDetails.toString();
     }
 
     private String GenerateContCoolingString(ContCooling contCooling) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", coolingContainerName));
-        contDetails.append(String.format("Pobór prundu : %d", contCooling.getAmperage()));
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.COOLING.name));
+        contDetails.append(String.format("Pobór prundu : %s", contCooling.getAmperage()));
         return contDetails.toString();
     }
 

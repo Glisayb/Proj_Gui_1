@@ -80,8 +80,8 @@ public class Warehouse {
     public void loadIntoShipList(Ship ship, String[] list)
             throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
-        for (int i = list.length - 1; i >= 0; i--) {
-            loadIntoShip(ship, list[i]);
+        for (String id : list) {
+            loadIntoShip(ship, id);
         }
     }
 

@@ -4,6 +4,7 @@ import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseStorageCapacityExceededException;
 import Models.*;
 import Models.Containers.ContBasic;
+import Models.Containers.ContCooling;
 import Models.Containers.ContHeavy;
 import Models.Containers.ContToxicLiquid;
 import Persistance.ShipPersistance;
@@ -20,34 +21,35 @@ public class Main {
         Ship IzabelaLecka = new Ship ("Izabela", "Warszawa", "Lodz","London", intel2);
         Warehouse WZ =new Warehouse("wschodniozachodni", 3);
         ContHeavy grubas = new ContHeavy(222,44,200);
+        ContCooling lodziak = new ContCooling(222,44,200, 33.4);
         ContToxicLiquid bimber = new ContToxicLiquid( 121,33,90900,92.7, Pollutions.ALKOHOLIC,"Skittlesowka");
         System.out.println(bimber.getDensity());
 
         try{
 
-            WZ.storeInWarehouse(new ContBasic(142,223));
+//            WZ.storeInWarehouse(new ContBasic(142,223));
 
-            new WarehouseItem(grubas, LocalDate.now());
+//            new WarehouseItem(grubas, LocalDate.now());
 
-            WZ.showAll();
-            //WZ.showCapacity();
-            WZ.loadAllIntoShip(latajacy);
-            //WZ.showCapacity();
-            String[] krypy = new String[2];
-            krypy[0] = bimber.getId();
-            krypy[1] = grubas.getId();
-            WZ.storeInWarehouse(bimber);
-            WZ.storeInWarehouse(grubas);
-            WZ.loadIntoShipList(latajacy, krypy);
-            //WZ.showAll();
-            var statek = new ShipPersistance(latajacy);
-            var statekZapis = statek.PrepareToSave();
-            statek.CreateShipFromString(":");
-
-            //System.out.println(statekZapis);
+//            WZ.showAll();
+//            //WZ.showCapacity();
+//            WZ.loadAllIntoShip(latajacy);
+//            //WZ.showCapacity();
+//            String[] krypy = new String[2];
+//            krypy[0] = lodziak.getId();
+//            krypy[1] = lodziak.getId();
+//            WZ.storeInWarehouse(lodziak);
+//            WZ.loadIntoShipList(latajacy, krypy);
+//            //WZ.showAll();
+            latajacy.loadContainer(lodziak);
+            var shipPersistance = new ShipPersistance(latajacy);
+            var shipAsString = shipPersistance.PrepareToSave();
+            System.out.println(shipAsString);
+            var ship = shipPersistance.CreateShipFromString(shipAsString);
+            System.out.println(ship);
 
         }catch(Exception e){
-
+            System.out.println(e.toString());
         }
 
     }
