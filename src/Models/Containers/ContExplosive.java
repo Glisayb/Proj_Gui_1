@@ -1,5 +1,7 @@
 package Models.Containers;
 
+import Persistance.ContainerPerisistance;
+
 public class ContExplosive extends ContHeavy implements IContExplosive{
     private double blastRadius;
 
@@ -21,6 +23,10 @@ public class ContExplosive extends ContHeavy implements IContExplosive{
 
     @Override
     public void setBlastRadius(double blastRadius) {
-
+        this.blastRadius = blastRadius;
+    }
+    @Override
+    public String toString() {
+        return (ContainerPerisistance.ContainerType.EXPLOSIVE.name);
     }
 }

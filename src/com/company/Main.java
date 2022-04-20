@@ -7,6 +7,7 @@ import Models.Containers.ContBasic;
 import Models.Containers.ContCooling;
 import Models.Containers.ContHeavy;
 import Models.Containers.ContToxicLiquid;
+import Persistance.PersistanceStatics;
 import Persistance.ShipPersistance;
 
 import java.time.LocalDate;
@@ -41,11 +42,16 @@ public class Main {
 //            WZ.storeInWarehouse(lodziak);
 //            WZ.loadIntoShipList(latajacy, krypy);
 //            //WZ.showAll();
+
             latajacy.loadContainer(lodziak);
             var shipPersistance = new ShipPersistance(latajacy);
             var shipAsString = shipPersistance.PrepareToSave();
-            System.out.println(shipAsString);
-            var ship = shipPersistance.CreateShipFromString(shipAsString);
+
+            var path = "ship.txt";
+            PersistanceStatics.FilePersistance.WriteFile(path, shipAsString);
+
+            var loadedShipFormFile = PersistanceStatics.FilePersistance.Read(path);
+            var ship = shipPersistance.CreateShipFromString(loadedShipFormFile);
             System.out.println(ship);
 
         }catch(Exception e){

@@ -1,5 +1,7 @@
 package Models.Containers;
 
+import Persistance.ContainerPerisistance;
+
 public class ContCooling extends ContHeavy implements IContCooling{
     private double amperage;
 
@@ -22,6 +24,11 @@ public class ContCooling extends ContHeavy implements IContCooling{
 
     @Override
     public void setAmperage(double amperage) {
+        this.amperage = amperage;
+    }
 
+    @Override
+    public String toString() {
+        return (ContainerPerisistance.ContainerType.COOLING.name);
     }
 }

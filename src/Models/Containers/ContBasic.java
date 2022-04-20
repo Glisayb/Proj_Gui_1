@@ -1,5 +1,6 @@
 package Models.Containers;
 
+import Persistance.ContainerPerisistance;
 import com.company.StaticClasses;
 
 public class ContBasic {
@@ -27,15 +28,16 @@ private int insuranceValue;
         return id;
     }
 
-
     @Override
     public String toString() {
-        return ("Conteiner ID:" + id );
+        return (ContainerPerisistance.ContainerType.BASIC.name);
     }
 
     public int getInsuranceValue(){
         return insuranceValue;
     }
+
     public double getWeight() {
-        return weight;}
+        return weight;
+    }
 }
