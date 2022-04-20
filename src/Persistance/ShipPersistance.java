@@ -70,21 +70,39 @@ public class ShipPersistance {
             sb.append(String.format("Wysokość ubezpieczenia : %s \n\t\t", container.getInsuranceValue()));
             sb.append(String.format("Waga Kontenera : %s", container.getWeight()));
             if (container instanceof ContCooling) {
-                sb.append(GenerateContCoolingString((ContCooling) container));
+                sb.append(GenerateTypeContCoolingString((ContCooling) container));
             }
             else if (container instanceof ContExplosive) {
-                sb.append(GenerateContExplosiveString((ContExplosive) container));
+                sb.append(GenerateTypeContExplosiveString((ContExplosive) container));
             }
             else if (container instanceof ContToxicLiquid) {
-                sb.append(GenerateContToxicLiquidString((ContToxicLiquid) container));
+                sb.append(GenerateTypeContToxicLiquidString((ContToxicLiquid) container));
             }
             else if (container instanceof ContToxicLoose) {
-                sb.append(GenerateContToxicLooseString((ContToxicLoose) container));
+                sb.append(GenerateTypeContToxicLooseString((ContToxicLoose) container));
             }
             else if (container instanceof ContLiquid) {
-                sb.append(GenerateContLiquidString((ContLiquid) container));
+                sb.append(GenerateTypeContLiquidString((ContLiquid) container));
             }
             else if (container instanceof ContHeavy) {
+                sb.append(GenerateTypeContHeavyString((ContHeavy) container));
+            }
+            if (container instanceof ContCooling) {
+                sb.append(GenerateContCoolingString((ContCooling) container));
+            }
+            if (container instanceof ContExplosive) {
+                sb.append(GenerateContExplosiveString((ContExplosive) container));
+            }
+            if (container instanceof ContToxicLiquid) {
+                sb.append(GenerateContToxicLiquidString((ContToxicLiquid) container));
+            }
+            if (container instanceof ContToxicLoose) {
+                sb.append(GenerateContToxicLooseString((ContToxicLoose) container));
+            }
+            if (container instanceof ContLiquid) {
+                sb.append(GenerateContLiquidString((ContLiquid) container));
+            }
+            if (container instanceof ContHeavy) {
                 sb.append(GenerateContHeavyString((ContHeavy) container));
             }
             if (container instanceof IContToxic) {
@@ -268,36 +286,31 @@ public class ShipPersistance {
 
     private String GenerateBasicContString(ContBasic container) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.BASIC.name));
-        contDetails.append(String.format("Wysokość ubezpieczenia : %s", container.getInsuranceValue()));
+        contDetails.append(String.format("\n\t\tWysokość ubezpieczenia : %s", container.getInsuranceValue()));
         return contDetails.toString();
     }
 
     private String GenerateContToxicLiquidString(ContToxicLiquid container) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.TOXIC_LIQUID.name));
-        contDetails.append(String.format("Nazwa płynu : %s", container.getCompoundName()));
+        contDetails.append(String.format("\n\t\tNazwa płynu : %s", container.getCompoundName()));
         return contDetails.toString();
     }
 
     private String GenerateContHeavyString(ContHeavy contHeavy) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.HEAVY.name));
-        contDetails.append(String.format("Iso : %s", contHeavy.getIso()));
+        contDetails.append(String.format("\n\t\tIso : %s", contHeavy.getIso()));
         return contDetails.toString();
     }
 
     private String GenerateContLiquidString(ContLiquid contLiquid) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.LIQUID.name));
-        contDetails.append(String.format("Gęstość : %d", contLiquid.getDensity()));
+        contDetails.append(String.format("\n\t\tGęstość : %d", contLiquid.getDensity()));
         return contDetails.toString();
     }
 
     private String GenerateContToxicLooseString(ContToxicLoose contToxicLoose) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.TOXIC_LOOSE.name));
-        contDetails.append(String.format("Niebezpieczeństwo trujących oparów : %s", contToxicLoose.getIsSublimating()?"tak":"nie"));
+        contDetails.append(String.format("\n\t\tNiebezpieczeństwo trujących oparów : %s", contToxicLoose.getIsSublimating()?"tak":"nie"));
         return contDetails.toString();
     }
 
@@ -309,15 +322,54 @@ public class ShipPersistance {
 
     private String GenerateContExplosiveString(ContExplosive contExplosive) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.EXPLOSIVE.name));
-        contDetails.append(String.format("Zasięg rażenia : %s", contExplosive.getBlastRadius()));
+        contDetails.append(String.format("\n\t\tZasięg rażenia : %s", contExplosive.getBlastRadius()));
         return contDetails.toString();
     }
 
     private String GenerateContCoolingString(ContCooling contCooling) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tTyp kontenera : %s \n\t\t", ContainerType.COOLING.name));
-        contDetails.append(String.format("Pobór prundu : %s", contCooling.getAmperage()));
+        contDetails.append(String.format("\n\t\tPobór prundu : %s", contCooling.getAmperage()));
+        return contDetails.toString();
+    }
+    private String GenerateTypeBasicContString(ContBasic container) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.BASIC.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContToxicLiquidString(ContToxicLiquid container) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.TOXIC_LIQUID.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContHeavyString(ContHeavy contHeavy) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.HEAVY.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContLiquidString(ContLiquid contLiquid) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.LIQUID.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContToxicLooseString(ContToxicLoose contToxicLoose) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.TOXIC_LOOSE.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContExplosiveString(ContExplosive contExplosive) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.EXPLOSIVE.name));
+        return contDetails.toString();
+    }
+
+    private String GenerateTypeContCoolingString(ContCooling contCooling) {
+        StringBuffer contDetails = new StringBuffer();
+        contDetails.append(String.format("\n\t\tTyp kontenera : %s", ContainerType.COOLING.name));
         return contDetails.toString();
     }
 
