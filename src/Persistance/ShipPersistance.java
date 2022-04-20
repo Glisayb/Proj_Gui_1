@@ -87,11 +87,11 @@ public class ShipPersistance {
     private Pattern homePortPattern = Pattern.compile("Port macierzysty : (.*) \\n");
     private Pattern destinationPattern = Pattern.compile("Port docelowy : (.*) \\n");
     private Pattern fromPattern = Pattern.compile("Port wyjściowy : (.*) \\n");
-    private Pattern capacityPattern = Pattern.compile("Ogólna pojemnoś : %s \n\t");
-    private Pattern weightPattern = Pattern.compile("Ogolna nośność : %s \n\t");
-    private Pattern electrifiedPattern = Pattern.compile("Kontenery z podłączeniem do prądu : %s \n\t");
-    private Pattern hazardousPattern = Pattern.compile("Kontenery niebezpieczne : %s \n\t");
-    private Pattern heavyPattern = Pattern.compile("Kontenery ciężkie : %s \n\t");
+    private Pattern capacityPattern = Pattern.compile("Ogólna pojemnoś : (.*) \\n");
+    private Pattern weightPattern = Pattern.compile("Ogolna nośność : %s (.*) \\n");
+    private Pattern electrifiedPattern = Pattern.compile("Kontenery z podłączeniem do prądu : (.*) \\n");
+    private Pattern hazardousPattern = Pattern.compile("Kontenery niebezpieczne : (.*) \\n");
+    private Pattern heavyPattern = Pattern.compile("Kontenery ciężkie : (.*) \\n");
 
     // pattern kontenerów
     private Pattern containerPattern = Pattern.compile("Id Kontenera : [.\\s\\S]*?-{3}\\n");
@@ -173,17 +173,17 @@ public class ShipPersistance {
         return importShip;
     }
 
-    String getStringProperty(String input, Pattern pattern){
+    private String getStringProperty(String input, Pattern pattern){
         Matcher propertyMatcher = pattern.matcher(input);
         propertyMatcher.find();
         return propertyMatcher.group(1);
     }
-    int getIntProperty(String input, Pattern pattern){
+    private int getIntProperty(String input, Pattern pattern){
         Matcher propertyMatcher = pattern.matcher(input);
         propertyMatcher.find();
         return Integer.parseInt(propertyMatcher.group(1));
     }
-    double getDoubleProperty(String input, Pattern pattern){
+    private double getDoubleProperty(String input, Pattern pattern){
         Matcher propertyMatcher = pattern.matcher(input);
         propertyMatcher.find();
         return Double.parseDouble(propertyMatcher.group(1));
