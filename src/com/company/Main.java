@@ -30,21 +30,21 @@ public class Main {
             new WarehouseItem(grubas, LocalDate.now());
 
             WZ.showAll();
-            WZ.showCapacity();
+            //WZ.showCapacity();
             WZ.loadAllIntoShip(latajacy);
-            WZ.showCapacity();
+            //WZ.showCapacity();
             String[] krypy = new String[2];
             krypy[0] = bimber.getId();
             krypy[1] = grubas.getId();
             WZ.storeInWarehouse(bimber);
             WZ.storeInWarehouse(grubas);
             WZ.loadIntoShipList(latajacy, krypy);
-            WZ.showAll();
-            var huj = new ShipPersistance(latajacy);
-            var pizda = huj.PrepareToSave();
-            huj.CreateShipFromString(":");
+            //WZ.showAll();
+            var statek = new ShipPersistance(latajacy);
+            var statekZapis = statek.PrepareToSave();
+            statek.CreateShipFromString(":");
 
-            System.out.println(pizda);
+            //System.out.println(statekZapis);
 
         }catch(Exception e){
 

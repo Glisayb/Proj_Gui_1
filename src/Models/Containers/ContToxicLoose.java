@@ -3,7 +3,7 @@ package Models.Containers;
 import Models.Pollutions;
 
 public class ContToxicLoose extends ContHeavy implements IContToxicLoose{
-    boolean isSublimating;
+    private boolean isSublimating;
 
     public ContToxicLoose(double weight, int insuranceValue, int iso, Pollutions pollutionType, boolean isSublimating) {
 

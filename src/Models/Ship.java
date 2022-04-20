@@ -36,6 +36,19 @@ public class Ship {
         this.shipCapacityMax = shipCapacityMax;
     }
 
+    public Ship(String shipId, String name, String homeport, String from, String destination, ShipCapacityInfo shipCapacityMax){
+
+        containerList = new ArrayList<ContBasic>(shipCapacityMax.capacity);
+        this.shipId = shipId;
+
+        this.name = name;
+        this.homeport = homeport;
+        this.from = from;
+        this.destination = destination;
+
+        this.shipCapacityMax = shipCapacityMax;
+    }
+
     public Ship(String name, String homeport, String from, String destination, ShipCapacityInfo shipCapacityMax){
 
         containerList = new ArrayList<ContBasic>(shipCapacityMax.capacity);
@@ -114,6 +127,17 @@ public class Ship {
             //jak usunac statek
             //ship = null;
         }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "name='" + name + '\'' +
+                ", homeport='" + homeport + '\'' +
+                ", from='" + from + '\'' +
+                ", destination='" + destination + '\'' +
+                ", shipId='" + shipId + '\'' +
+                '}';
+    }
 }
 
 

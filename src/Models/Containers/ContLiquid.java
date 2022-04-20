@@ -1,7 +1,7 @@
 package Models.Containers;
 
 public class ContLiquid extends ContBasic implements IContLiquid{
-    double density;
+    private double density;
 
     ContLiquid(double weight, int insuranceValue, double density) {
 

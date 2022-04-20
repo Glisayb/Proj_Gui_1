@@ -3,7 +3,7 @@ package Models.Containers;
 import Models.Pollutions;
 
 public class ContToxicLiquid extends ContHeavy implements IContToxicLiquid{
-    String compoundName;
+    private String compoundName;
 
     public ContToxicLiquid(double weight, int insuranceValue, int iso, double density, Pollutions pollutionType, String compoundName) {
 

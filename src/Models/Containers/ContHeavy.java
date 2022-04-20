@@ -2,7 +2,7 @@ package Models.Containers;
 
 public class ContHeavy extends ContBasic implements IContHeavy{
 
-    int iso;
+    private int iso;
 
     public ContHeavy(double weight, int insuranceValue, int iso){
 

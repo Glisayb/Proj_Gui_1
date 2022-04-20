@@ -1,7 +1,7 @@
 package Models.Containers;
 
 public class ContExplosive extends ContHeavy implements IContExplosive{
-    double blastRadius;
+    private double blastRadius;
 
     public ContExplosive(double weight, int insuranceValue, int iso, double blastRadius) {
 
@@ -10,7 +10,7 @@ public class ContExplosive extends ContHeavy implements IContExplosive{
     }
 
     @Override
-    public double blastRadius() {
+    public double getBlastRadius() {
         return blastRadius;
     }
 

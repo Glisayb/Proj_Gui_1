@@ -1,7 +1,7 @@
 package Models.Containers;
 
 public class ContCooling extends ContHeavy implements IContCooling{
-    double amperage;
+    private double amperage;
 
     public ContCooling(double weight, int insuranceValue, int iso, double amperage) {
 
