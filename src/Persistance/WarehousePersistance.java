@@ -4,6 +4,7 @@ import Models.Containers.ContBasic;
 import Models.Warehouse;
 import Models.WarehouseItem;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Pattern;
@@ -37,10 +38,11 @@ public class WarehousePersistance {
             WarehouseItem warehouseItem = sortedWarehouseIteams.get(i);
             ContBasic container = warehouseItem.getContainer();
             sb.append("\t" + (i + 1) + ". ");
-            sb.append()
 
             ContainerPerisistance containerPerisistance = new ContainerPerisistance(container);
             String containerString = containerPerisistance.GenerateContainerString();
+            sb.append(String.format("Data załadowania : %s \n", warehouseItem.getLoadDate()));
+            sb.append(String.format("Data końca składowania : %s \n\t", warehouseItem.getExpirationDate()));
             sb.append(containerString);
             sb.append("\n\t\t---\n");
         }
@@ -57,6 +59,9 @@ public class WarehousePersistance {
 
     // pattern kontenerów
     private Pattern containerPattern = Pattern.compile("Id Kontenera : [.\\s\\S]*?-{3}\\n");
+    // pattern kontenerów WHiteamów
+    private Pattern loadDataPattern = Pattern.compile("Data załadowania : (.*) \\n");
+    private Pattern expirationDataPattern = Pattern.compile("Data końca składowania : (.*) \\n");
 
     public Warehouse CreateWarehouseFromString(String warehouseString){
 
@@ -65,8 +70,11 @@ public class WarehousePersistance {
 
         var matchWarehouse = containerPattern.matcher(warehouseString);
         while(matchWarehouse.find()){
-            String containerString = matchWarehouse.group(0);
-            warehouseItems.add(ContainerPerisistance.getContainerWithParameters(containerString));
+            String wareHouseString = matchWarehouse.group(0);
+            String loadDate = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, loadDataPattern);
+            String expirationDate = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, expirationDataPattern);
+            warehouseItems.add(ContainerPerisistance.getContainerWithParameters(warehouseString),loadDate,expirationDate);
+
         }
 
         warehouseWithProperties.warCollection = warehouseItems;

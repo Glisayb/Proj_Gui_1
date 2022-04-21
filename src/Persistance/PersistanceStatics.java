@@ -3,6 +3,7 @@ package Persistance;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,7 @@ public class PersistanceStatics {
             propertyMatcher.find();
             return Double.parseDouble(propertyMatcher.group(1));
         }
+
     }
 
     public static class FilePersistance{
