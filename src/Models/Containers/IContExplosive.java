@@ -2,7 +2,7 @@ package Models.Containers;
 
 public interface IContExplosive extends IContHazardous {
 
-    double blastRadius();
+    double getBlastRadius();
     void setBlastRadius(double blastRadius);
 
 }

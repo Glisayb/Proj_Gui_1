@@ -1,12 +1,20 @@
 package Models.Containers;
 
+import Persistance.ContainerPerisistance;
+
 public class ContHeavy extends ContBasic implements IContHeavy{
 
-    int iso;
+    private int iso;
 
     public ContHeavy(double weight, int insuranceValue, int iso){
 
-        super(weight,insuranceValue);
+        super(weight, insuranceValue);
+        this.iso = iso;
+
+    }
+    public ContHeavy(String id, double weight, int insuranceValue, int iso){
+
+        super(id, weight, insuranceValue);
         this.iso = iso;
 
     }
@@ -19,5 +27,9 @@ public class ContHeavy extends ContBasic implements IContHeavy{
     @Override
     public void setIso(int iso) {
         this.iso = iso;
+    }
+    @Override
+    public String toString() {
+        return (ContainerPerisistance.ContainerType.HEAVY.name);
     }
 }
