@@ -1,5 +1,5 @@
 1.
-Id statku : 4ce7ced0-0b1d-4117-a325-9e27d01d5250 
+Id statku : d18f6f11-25e9-4f71-8ae7-411ae5a3cc5e 
 Nazwa statku : Amanda 
 Port macierzysty : Amsterdam 
 Port docelowy : Danzig 
@@ -12,7 +12,7 @@ Maksymalna Pojemność statku :
 	Kontenery ciężkie : 10 
 	Kontenery na statku :
 	1. 
-		Id Kontenera : 28ff6c65-36fd-487a-9b77-b580f23df27b
+		Id Kontenera : dfa64973-8375-47db-98ab-a90414c4141a
 		Wysokość ubezpieczenia : 33
 		Waga Kontenera : 121.0
 		Typ kontenera : Toksyczny płynny
@@ -22,7 +22,7 @@ Maksymalna Pojemność statku :
 		Rodzaj niebezpieczeństwa : ALKOHOLIC
 		---
 	2. 
-		Id Kontenera : 2f6a5234-bfc9-4a77-8408-8eb5692689fc
+		Id Kontenera : b02c0013-2b2c-482b-801f-eea06a029727
 		Wysokość ubezpieczenia : 44
 		Waga Kontenera : 222.0
 		Typ kontenera : Lodówka
@@ -30,7 +30,7 @@ Maksymalna Pojemność statku :
 		Iso : 200
 		---
 	3. 
-		Id Kontenera : 4c7575b3-60ea-40f2-afa8-cca7e36f65b1
+		Id Kontenera : 94cbb73f-6b4e-4ab0-9248-ad74db2c578a
 		Wysokość ubezpieczenia : 87
 		Waga Kontenera : 421.11
 		Typ kontenera : Wybuchowy
@@ -39,7 +39,65 @@ Maksymalna Pojemność statku :
 		---
 ***
 2.
-Id statku : ffbf30ca-d27f-451e-9983-cf4942eed5c8 
+Id statku : 16e58888-9e84-4ed6-befd-2247a874de68 
+Nazwa statku : Suzie 
+Port macierzysty : Radom 
+Port docelowy : Montevideo 
+Port wyjściowy : Ulaanbaatar 
+Maksymalna Pojemność statku :
+	Ogólna pojemność : 222 
+	Ogolna nośność : 3769.0 
+	Kontenery z podłączeniem do prądu : 2 
+	Kontenery niebezpieczne : 5 
+	Kontenery ciężkie : 5 
+	Kontenery na statku :
+	1. 
+		Id Kontenera : c70b5eed-d337-47f9-83a6-d05e7e31a3a5
+		Wysokość ubezpieczenia : 73
+		Waga Kontenera : 22.0
+		Typ kontenera : Toksyczny płynny
+		Nazwa płynu : Gęste
+		Gęstość : 4.0
+		Iso : 448
+		Rodzaj niebezpieczeństwa : NIGHT_POLLUTIONS
+		---
+	2. 
+		Id Kontenera : 220a49cf-e8af-4f1c-9f15-e1c86f9a2238
+		Wysokość ubezpieczenia : 17
+		Waga Kontenera : 33.21
+		Typ kontenera : Wybuchowy
+		Zasięg rażenia : 3000.0
+		Iso : 10090
+		---
+	3. 
+		Id Kontenera : dfa64973-8375-47db-98ab-a90414c4141a
+		Wysokość ubezpieczenia : 33
+		Waga Kontenera : 121.0
+		Typ kontenera : Toksyczny płynny
+		Nazwa płynu : Skittlesowka
+		Gęstość : 92.7
+		Iso : 90900
+		Rodzaj niebezpieczeństwa : ALKOHOLIC
+		---
+	4. 
+		Id Kontenera : b02c0013-2b2c-482b-801f-eea06a029727
+		Wysokość ubezpieczenia : 44
+		Waga Kontenera : 222.0
+		Typ kontenera : Lodówka
+		Pobór prundu : 33.4
+		Iso : 200
+		---
+	5. 
+		Id Kontenera : 94cbb73f-6b4e-4ab0-9248-ad74db2c578a
+		Wysokość ubezpieczenia : 87
+		Waga Kontenera : 421.11
+		Typ kontenera : Wybuchowy
+		Zasięg rażenia : 150.0
+		Iso : 90090
+		---
+***
+3.
+Id statku : 5662d7a4-47d5-4574-98cb-46bb10155cb1 
 Nazwa statku : Zenobia 
 Port macierzysty : Nowy York 
 Port docelowy : London 
@@ -52,7 +110,7 @@ Maksymalna Pojemność statku :
 	Kontenery ciężkie : 3 
 	Kontenery na statku :
 	1. 
-		Id Kontenera : 28ff6c65-36fd-487a-9b77-b580f23df27b
+		Id Kontenera : dfa64973-8375-47db-98ab-a90414c4141a
 		Wysokość ubezpieczenia : 33
 		Waga Kontenera : 121.0
 		Typ kontenera : Toksyczny płynny
@@ -62,14 +120,14 @@ Maksymalna Pojemność statku :
 		Rodzaj niebezpieczeństwa : ALKOHOLIC
 		---
 	2. 
-		Id Kontenera : 50c20268-25a0-4a63-afb8-02c8be3606c7
+		Id Kontenera : 6a5220ae-2277-4fe8-8f1a-530f73f1d778
 		Wysokość ubezpieczenia : 44
 		Waga Kontenera : 222.0
 		Typ kontenera : Ciężki
 		Iso : 200
 		---
 	3. 
-		Id Kontenera : 38c3f7b8-7bd4-4894-8c89-3564806d0bdd
+		Id Kontenera : 4572667a-56df-4458-bce0-9cfaa70ce8da
 		Wysokość ubezpieczenia : 12
 		Waga Kontenera : 321.34
 		Typ kontenera : Zwykły
