@@ -33,6 +33,12 @@ public class PersistanceStatics {
 
     public static class FilePersistance{
 
+
+        public static boolean FileExists(String stringPath){
+            var path = Paths.get(stringPath);
+            return Files.exists(path);
+        }
+
         public static void WriteFile(String stringPath, String content){
             try {
                 var path = Paths.get(stringPath);

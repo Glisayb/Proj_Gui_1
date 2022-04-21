@@ -1,5 +1,6 @@
 package Models;
 
+import Exceptions.ContainerNotFoundException;
 import Exceptions.Ship.*;
 import Models.Containers.ContBasic;
 import Models.Containers.IContElectrified;
@@ -9,6 +10,7 @@ import com.company.StaticClasses;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Ship {
@@ -113,10 +115,20 @@ public class Ship {
                 }
             }
         }
-        //Ostatecznie gdy wszystkie powyzsze warunki przejda dodajemy kontener
         containerList.add(container);
-
         }
+
+        public ContBasic unloadContainer(String containerId) throws ContainerNotFoundException {
+            var container = containerList.stream().filter(x -> Objects.equals(x.getId(), containerId)).findFirst();
+            if(container.isPresent()){
+                containerList.remove(container.get());
+                return container.get();
+            }
+            else{
+                throw new ContainerNotFoundException(containerId, shipId);
+            }
+        }
+
         public void farewell(){
             LocalTime time = LocalTime.now();
             System.out.println(name + " ETD :" + time +

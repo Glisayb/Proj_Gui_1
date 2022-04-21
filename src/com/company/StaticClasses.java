@@ -12,17 +12,7 @@ public class StaticClasses {
         }
     }
 
-    public static class Timer {
-
-        private static LocalDate date;
-        public Timer(){
-            date = LocalDate.MIN;
-        }
-
-        public static LocalDate getDate() {
-            return date;
-        }
-
-
+    public static class Timer extends Thread{
+        public static LocalDate date = LocalDate.now();
     }
 }

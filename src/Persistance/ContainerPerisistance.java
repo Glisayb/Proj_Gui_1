@@ -103,7 +103,6 @@ public class ContainerPerisistance {
         String id = PersistanceStatics.PatternProperties.getStringProperty(containerString, containerIdPattern);
         double weight = PersistanceStatics.PatternProperties.getDoubleProperty(containerString, containerWeightPattern);
         int insuranceValue = PersistanceStatics.PatternProperties.getIntProperty(containerString, containerInsurancePattern);
-        int iso  = PersistanceStatics.PatternProperties.getIntProperty(containerString, containerIsoPattern);
         double density = PersistanceStatics.PatternProperties.getDoubleProperty(containerString, containerDensity);
         return new ContLiquid(id,weight,insuranceValue,density);
     }
