@@ -6,6 +6,7 @@ import Exceptions.WarehouseStorageCapacityExceededException;
 import Models.Containers.*;
 import com.company.StaticClasses;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class Warehouse {
     public void storeInWarehouse(ContBasic container) throws WarehouseStorageCapacityExceededException {
         StorageDaysLimit limit = DetrmineHowLongContainerCanBeStored(container);
         if (warCollection.size()<capacity) {
-            warCollection.add(new WarehouseItem(container, StaticClasses.Timer.getDate(), StorageDaysLimit.ContExplosive));
+            warCollection.add(new WarehouseItem(container, LocalDate.now(), StorageDaysLimit.ContExplosive));
         }
         else
             throw new WarehouseStorageCapacityExceededException(container.getId(), name, capacity);

@@ -1,5 +1,9 @@
 package com.company;
+import javax.swing.text.DateFormatter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.UUID;
 
 public class StaticClasses {
@@ -14,7 +18,8 @@ public class StaticClasses {
 
     public static class Timer {
 
-        private static LocalDate date;
+
+        private static LocalDate date = LocalDate.MIN;
         public Timer(){
             date = LocalDate.MIN;
         }
@@ -22,7 +27,8 @@ public class StaticClasses {
         public static LocalDate getDate() {
             return date;
         }
-
-
+        public static LocalDate getDDate() {
+            return LocalDate.now();
+        }
     }
 }
