@@ -1,22 +1,77 @@
-Id statku : b7702d82-8ae9-4aec-a868-536c3406ab6e 
-Nazwa statku : latajacyholender 
+1.
+Id statku : 4ce7ced0-0b1d-4117-a325-9e27d01d5250 
+Nazwa statku : Amanda 
 Port macierzysty : Amsterdam 
 Port docelowy : Danzig 
 Port wyjściowy : Borholm 
 Maksymalna Pojemność statku :
-	Ogólna pojemność : 44 
+	Ogólna pojemność : 4224 
 	Ogolna nośność : 2137.0 
 	Kontenery z podłączeniem do prądu : 7 
 	Kontenery niebezpieczne : 13 
 	Kontenery ciężkie : 10 
 	Kontenery na statku :
 	1. 
-		Id Kontenera : 756ce453-f62d-4a42-82d4-8de451d55d98
+		Id Kontenera : 28ff6c65-36fd-487a-9b77-b580f23df27b
+		Wysokość ubezpieczenia : 33
+		Waga Kontenera : 121.0
+		Typ kontenera : Toksyczny płynny
+		Nazwa płynu : Skittlesowka
+		Gęstość : 92.7
+		Iso : 90900
+		Rodzaj niebezpieczeństwa : ALKOHOLIC
+		---
+	2. 
+		Id Kontenera : 2f6a5234-bfc9-4a77-8408-8eb5692689fc
 		Wysokość ubezpieczenia : 44
 		Waga Kontenera : 222.0
 		Typ kontenera : Lodówka
 		Pobór prundu : 33.4
 		Iso : 200
 		---
+	3. 
+		Id Kontenera : 4c7575b3-60ea-40f2-afa8-cca7e36f65b1
+		Wysokość ubezpieczenia : 87
+		Waga Kontenera : 421.11
+		Typ kontenera : Wybuchowy
+		Zasięg rażenia : 150.0
+		Iso : 90090
+		---
 ***
-		
+2.
+Id statku : ffbf30ca-d27f-451e-9983-cf4942eed5c8 
+Nazwa statku : Zenobia 
+Port macierzysty : Nowy York 
+Port docelowy : London 
+Port wyjściowy : Lodz 
+Maksymalna Pojemność statku :
+	Ogólna pojemność : 1245 
+	Ogolna nośność : 1236.0 
+	Kontenery z podłączeniem do prądu : 1 
+	Kontenery niebezpieczne : 7 
+	Kontenery ciężkie : 3 
+	Kontenery na statku :
+	1. 
+		Id Kontenera : 28ff6c65-36fd-487a-9b77-b580f23df27b
+		Wysokość ubezpieczenia : 33
+		Waga Kontenera : 121.0
+		Typ kontenera : Toksyczny płynny
+		Nazwa płynu : Skittlesowka
+		Gęstość : 92.7
+		Iso : 90900
+		Rodzaj niebezpieczeństwa : ALKOHOLIC
+		---
+	2. 
+		Id Kontenera : 50c20268-25a0-4a63-afb8-02c8be3606c7
+		Wysokość ubezpieczenia : 44
+		Waga Kontenera : 222.0
+		Typ kontenera : Ciężki
+		Iso : 200
+		---
+	3. 
+		Id Kontenera : 38c3f7b8-7bd4-4894-8c89-3564806d0bdd
+		Wysokość ubezpieczenia : 12
+		Waga Kontenera : 321.34
+		Typ kontenera : Zwykły
+		---
+***

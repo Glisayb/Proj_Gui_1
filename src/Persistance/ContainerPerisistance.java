@@ -20,23 +20,23 @@ public class ContainerPerisistance {
         containerString.append(AddContBasicProperties(container));
         containerString.append(String.format("\n\t\tTyp kontenera : %s", container.toString()));
 
-        if (container instanceof ContCooling) {
-            containerString.append(AddContCoolingProperties((ContCooling) container));
+        if (container instanceof IContCooling) {
+            containerString.append(AddContCoolingProperties((IContCooling) container));
         }
-        if (container instanceof ContExplosive) {
-            containerString.append(AddContExplosiveSProperties((ContExplosive) container));
+        if (container instanceof IContExplosive) {
+            containerString.append(AddContExplosiveSProperties((IContExplosive) container));
         }
-        if (container instanceof ContToxicLiquid) {
-            containerString.append(AddContToxicLiquidProperties((ContToxicLiquid) container));
+        if (container instanceof IContToxicLiquid) {
+            containerString.append(AddContToxicLiquidProperties((IContToxicLiquid) container));
         }
-        if (container instanceof ContToxicLoose) {
-            containerString.append(AddContToxicLooseProperties((ContToxicLoose) container));
+        if (container instanceof IContToxicLoose) {
+            containerString.append(AddContToxicLooseProperties((IContToxicLoose) container));
         }
-        if (container instanceof ContLiquid) {
-            containerString.append(AddContLiquidProperties((ContLiquid) container));
+        if (container instanceof IContLiquid) {
+            containerString.append(AddContLiquidProperties((IContLiquid) container));
         }
-        if (container instanceof ContHeavy) {
-            containerString.append(AddContHeavyProperties((ContHeavy) container));
+        if (container instanceof IContHeavy) {
+            containerString.append(AddContHeavyProperties((IContHeavy) container));
         }
         if (container instanceof IContToxic) {
             containerString.append(AddContToxicProperties((IContToxic) container));
@@ -64,9 +64,9 @@ public class ContainerPerisistance {
     private static Pattern containerCompoundName = Pattern.compile("Nazwa płynu : (.*)\n");
     private static Pattern containerIsoPattern = Pattern.compile("Iso : (.*)\n");
     private static Pattern containerDensity = Pattern.compile("Gęstość : (.*)\n");
-    private static Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów : (.*) \n");
-    private static Pattern containerPollutionType = Pattern.compile("Rodzaj niebezpieczeństwa : (.*) \n");
-    private static Pattern containerBlastRadius = Pattern.compile("Zasięg rażenia : (.*) \n");
+    private static Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów : (.*)\n");
+    private static Pattern containerPollutionType = Pattern.compile("Rodzaj niebezpieczeństwa : (.*)\n");
+    private static Pattern containerBlastRadius = Pattern.compile("Zasięg rażenia : (.*)\n");
     private static Pattern containerAmperagePattern = Pattern.compile("Pobór prundu : (.*)\n");
     private static Pattern containerWeightPattern = Pattern.compile("Waga Kontenera : (.*)\n");
 
@@ -155,22 +155,22 @@ public class ContainerPerisistance {
         int insuranceValue = PersistanceStatics.PatternProperties.getIntProperty(containerString, containerInsurancePattern);
         return new ContBasic(id,weight,insuranceValue);
     }
-    private String AddContToxicLiquidProperties(ContToxicLiquid container) {
+    private String AddContToxicLiquidProperties(IContToxicLiquid container) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tNazwa płynu : %s", container.getCompoundName()));
         return contDetails.toString();
     }
-    private String AddContHeavyProperties(ContHeavy contHeavy) {
+    private String AddContHeavyProperties(IContHeavy contHeavy) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tIso : %s", contHeavy.getIso()));
         return contDetails.toString();
     }
-    private String AddContLiquidProperties(ContLiquid contLiquid) {
+    private String AddContLiquidProperties(IContLiquid contLiquid) {
         StringBuffer contDetails = new StringBuffer();
-        contDetails.append(String.format("\n\t\tGęstość : %d", contLiquid.getDensity()));
+        contDetails.append(String.format("\n\t\tGęstość : %s", contLiquid.getDensity()));
         return contDetails.toString();
     }
-    private String AddContToxicLooseProperties(ContToxicLoose contToxicLoose) {
+    private String AddContToxicLooseProperties(IContToxicLoose contToxicLoose) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tNiebezpieczeństwo trujących oparów : %s", contToxicLoose.getIsSublimating()?"tak":"nie"));
         return contDetails.toString();
@@ -180,12 +180,12 @@ public class ContainerPerisistance {
         contDetails.append(String.format("\n\t\tRodzaj niebezpieczeństwa : %s", contToxic.getPollutionType()));
         return contDetails.toString();
     }
-    private String AddContExplosiveSProperties(ContExplosive contExplosive) {
+    private String AddContExplosiveSProperties(IContExplosive contExplosive) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tZasięg rażenia : %s", contExplosive.getBlastRadius()));
         return contDetails.toString();
     }
-    private String AddContCoolingProperties(ContCooling contCooling) {
+    private String AddContCoolingProperties(IContCooling contCooling) {
         StringBuffer contDetails = new StringBuffer();
         contDetails.append(String.format("\n\t\tPobór prundu : %s", contCooling.getAmperage()));
         return contDetails.toString();
