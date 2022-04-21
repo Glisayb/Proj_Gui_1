@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public class Warehouse {
 
-    String name;
-    int capacity;
+    public String name;
+    public int capacity;
 
     public Warehouse(String name, int capacity){
 
         this.name = name;
         this.capacity = capacity;
-
     }
-    ArrayList<WarehouseItem> warCollection = new ArrayList<>();
+
+    public ArrayList<WarehouseItem> warCollection = new ArrayList<>();
 
     public WarehouseItem getItemById(String id)
             throws WarehouseItemNotFoundException {
