@@ -1,0 +1,22 @@
+Id statku : b7702d82-8ae9-4aec-a868-536c3406ab6e 
+Nazwa statku : latajacyholender 
+Port macierzysty : Amsterdam 
+Port docelowy : Danzig 
+Port wyjściowy : Borholm 
+Maksymalna Pojemność statku :
+	Ogólna pojemność : 44 
+	Ogolna nośność : 2137.0 
+	Kontenery z podłączeniem do prądu : 7 
+	Kontenery niebezpieczne : 13 
+	Kontenery ciężkie : 10 
+	Kontenery na statku :
+	1. 
+		Id Kontenera : 756ce453-f62d-4a42-82d4-8de451d55d98
+		Wysokość ubezpieczenia : 44
+		Waga Kontenera : 222.0
+		Typ kontenera : Lodówka
+		Pobór prundu : 33.4
+		Iso : 200
+		---
+***
+		

@@ -1,4 +1,5 @@
 package com.company;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class StaticClasses {
@@ -9,5 +10,19 @@ public class StaticClasses {
             UUID uuid = UUID.randomUUID();
             return (uuid.toString());
         }
+    }
+
+    public static class Timer {
+
+        private static LocalDate date;
+        public Timer(){
+            date = LocalDate.MIN;
+        }
+
+        public static LocalDate getDate() {
+            return date;
+        }
+
+
     }
 }

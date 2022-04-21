@@ -3,7 +3,9 @@ package Models;
 import Exceptions.Ship.*;
 import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseStorageCapacityExceededException;
-import Models.Containers.ContBasic;
+import Models.Containers.*;
+import com.company.StaticClasses;
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,33 +27,43 @@ public class Warehouse {
 
         Optional<WarehouseItem> any = warCollection.stream().
                 filter(WarehouseItem -> id == WarehouseItem.getId()).findFirst();
-            if (any.isPresent())
-                return any.get();
-            else
-                throw new WarehouseItemNotFoundException
-                        (id, name);
-                }
-
-    public void storeInWarehouse(ContBasic container)
-            throws WarehouseStorageCapacityExceededException {
-        if (warCollection.size()<capacity) {
-            warCollection.add(new WarehouseItem(container));
-        }
+        if (any.isPresent())
+            return any.get();
         else
-            throw new WarehouseStorageCapacityExceededException
-                    (container.getId(), name, capacity);
+            throw new WarehouseItemNotFoundException
+                    (id, name);
     }
 
-    public ContBasic pickFromWarehouse(String id)
-            throws WarehouseItemNotFoundException {
+    public static StorageDaysLimit DetrmineHowLongContainerCanBeStored(ContBasic container){
+        StorageDaysLimit limit;
+        if(container instanceof IContToxicLoose)
+            limit = StorageDaysLimit.ContToxicLoose;
+        else if(container instanceof IContToxicLiquid)
+            limit = StorageDaysLimit.ContToxicLiquid;
+        else if(container instanceof IContExplosive)
+            limit = StorageDaysLimit.ContExplosive;
+        else
+            limit = StorageDaysLimit.None;
+        return limit;
+    }
+
+    public void storeInWarehouse(ContBasic container) throws WarehouseStorageCapacityExceededException {
+        StorageDaysLimit limit = DetrmineHowLongContainerCanBeStored(container);
+        if (warCollection.size()<capacity) {
+            warCollection.add(new WarehouseItem(container, StaticClasses.Timer.getDate(), StorageDaysLimit.ContExplosive));
+        }
+        else
+            throw new WarehouseStorageCapacityExceededException(container.getId(), name, capacity);
+    }
+
+    public ContBasic pickFromWarehouse(String id) throws WarehouseItemNotFoundException {
 
         WarehouseItem item = getItemById(id);
         warCollection.remove(item);
         return (item.getContainer());
     }
 
-    public void loadIntoShip(Ship ship, String id)
-            throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
+    public void loadIntoShip(Ship ship, String id) throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         ship.loadContainer(pickFromWarehouse(id));
     }
