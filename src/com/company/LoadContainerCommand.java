@@ -1,5 +1,7 @@
 package com.company;
 
+import Exceptions.Ship.*;
+import Exceptions.WarehouseItemNotFoundException;
 import Models.Ship;
 import Models.Warehouse;
 import Persistance.ShipPersistance;
@@ -22,12 +24,13 @@ public class LoadContainerCommand implements ICommand{
             }
 
     @Override
-    public void execute() {
+    public void execute() throws HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, WarehouseItemNotFoundException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         var ship = Main.ships.stream().filter(s -> Objects.equals(s.shipId, id)).findFirst();
         var warehouse = Main.warehouses.stream().filter(w -> Objects.equals(w.name, warehouseName)).findFirst();
-        warehouse.loadIntoShip(ship,containerId);
-            System.out.println();
+        if(warehouse.isPresent() && ship.isPresent()){
+            warehouse.get().loadIntoShip(ship.get(),containerId);
+
         }
     }
 }

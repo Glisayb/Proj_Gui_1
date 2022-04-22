@@ -66,6 +66,7 @@ public class Warehouse {
     public void loadIntoShip(Ship ship, String id) throws WarehouseItemNotFoundException, HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         ship.loadContainer(pickFromWarehouse(id));
+        System.out.println(id+" loaded into : "+ ship.getName()+" ship");
     }
 
     public void showCapacity(){
@@ -87,6 +88,7 @@ public class Warehouse {
             ship.loadContainer(warCollection.get(i).getContainer());
             warCollection.remove(i);
         }
+        System.out.println(size+" containers loaded into : "+ ship.getName()+" ship");
     }
 
     public void loadIntoShipList(Ship ship, String[] list)

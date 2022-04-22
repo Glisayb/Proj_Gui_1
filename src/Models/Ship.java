@@ -150,6 +150,9 @@ public class Ship {
                 ", shipId='" + shipId + '\'' +
                 '}';
     }
+    public String getName() {
+        return name;
+    }
 }
 
 

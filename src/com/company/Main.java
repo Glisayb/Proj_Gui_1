@@ -21,29 +21,39 @@ public class Main {
     public static ArrayList<Ship> ships;
     public static ArrayList<Warehouse> warehouses;
     public static void main(String[] args) {
-        Warehouse zachodni = new Warehouse("Zachodni",100);
-        warehouses.add(zachodni);
-        zachodni.storeInWarehouse(new ContBasic(22,334,55));
 
-        if(!PersistanceStatics.FilePersistance.FileExists(shipsFilePath)){
+        if (!PersistanceStatics.FilePersistance.FileExists(shipsFilePath)) {
             ships = GenerateShips();
+            warehouses = GenerateWarehouses();
 
-        }
-        else{
+        } else {
             var savedShips = PersistanceStatics.FilePersistance.Read(shipsFilePath);
             ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
         }
 
         ExecutorService service = Executors.newFixedThreadPool(10);
         service.submit(() -> {
-            while(true){
+            while (true) {
                 Thread.sleep(5000);
                 StaticClasses.Timer.date = StaticClasses.Timer.date.plusDays(1);
             }
         });
         service.submit(new Menu());
+    }
 
-
+    private static ArrayList<Warehouse> GenerateWarehouses()
+    {
+        var warehouses = new ArrayList<Warehouse>();
+        Warehouse zachodni = new Warehouse("Zachodni", 100);
+        Warehouse górny = new Warehouse("Górny", 10);
+        Warehouse duży = new Warehouse("Duży", 3);
+        try {
+            zachodni.storeInWarehouse(new ContBasic(334, 55));
+        } catch (WarehouseStorageCapacityExceededException ee) {
+            ee.printStackTrace();
+        }
+        warehouses.add(zachodni);
+        return warehouses;
     }
 
     private static ArrayList<Ship> GenerateShips() {

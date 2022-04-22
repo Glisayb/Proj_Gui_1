@@ -21,7 +21,7 @@ public class ShowWarehouseCommand implements ICommand{
 
         var warehouse = Main.warehouses.stream().filter(s -> Objects.equals(s.name, name)).findFirst();
         if(warehouse.isPresent()){
-
+            warehouse.get().showAll();
         }
     }
 }

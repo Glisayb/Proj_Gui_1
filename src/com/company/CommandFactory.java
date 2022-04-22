@@ -47,8 +47,14 @@ public class CommandFactory {
         if(Objects.equals(parameters.get(1), "ships_id")){
             return new ShowAllShipsCommand();
         }
+        else if(Objects.equals(parameters.get(1), "warehouses")) {
+            return new ShowAllWarehousesCommand();
+        }
         else if(Objects.equals(parameters.get(1), "id")){
             return new ShowShipCommand(parameters.get(2));
+        }
+        else if(Objects.equals(parameters.get(1), "warehouse")){
+            return new ShowWarehouseCommand(parameters.get(2));
         }
         else{
             throw new CommandNotInCorrectFormat(showCommandInstructionShip);
@@ -66,7 +72,10 @@ public class CommandFactory {
         }
     }
 
-    private String showCommandInstructionShip = "Komenda show jako pierwszy argument przyjmuje słowo 'ships_id'";
+    private String showCommandInstructionShip = ("Argumenty komendy show: \n\t ships_id" +
+            "\t - \twykaz id statkow \n" +
+            "\t id {id}\t - \tstatek o podanym id \n" +
+            "\t warehouse {name}\t - \tstan podanego magazynu");
 }
 
 
