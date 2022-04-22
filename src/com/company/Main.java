@@ -29,6 +29,7 @@ public class Main {
         } else {
             var savedShips = PersistanceStatics.FilePersistance.Read(shipsFilePath);
             ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
+            warehouses = GenerateWarehouses();
         }
 
         ExecutorService service = Executors.newFixedThreadPool(10);
@@ -45,10 +46,9 @@ public class Main {
     {
         var warehouses = new ArrayList<Warehouse>();
         Warehouse zachodni = new Warehouse("Zachodni", 100);
-        Warehouse górny = new Warehouse("Górny", 10);
-        Warehouse duży = new Warehouse("Duży", 3);
         try {
             zachodni.storeInWarehouse(new ContBasic(334, 55));
+            zachodni.storeInWarehouse(new ContBasic(24, 1));
         } catch (WarehouseStorageCapacityExceededException ee) {
             ee.printStackTrace();
         }

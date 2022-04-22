@@ -7,6 +7,7 @@ import Models.Containers.*;
 import com.company.StaticClasses;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Warehouse {
@@ -26,7 +27,7 @@ public class Warehouse {
             throws WarehouseItemNotFoundException {
 
         Optional<WarehouseItem> any = warCollection.stream().
-                filter(WarehouseItem -> id == WarehouseItem.getId()).findFirst();
+                filter(WarehouseItem -> Objects.equals(id, WarehouseItem.getId())).findFirst();
         if (any.isPresent())
             return any.get();
         else

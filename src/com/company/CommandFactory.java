@@ -39,6 +39,14 @@ public class CommandFactory {
             }
             return CreateLoadCommand(parameters);
         }
+        else if(commandString.startsWith(deleteCommand)){
+            ArrayList<String> parameters = new ArrayList<>();
+            var matcher = commandPattern.matcher(commandString);
+            while(matcher.find()){
+                parameters.add(matcher.group(1));
+            }
+            return CreateDeleteCommand(parameters);
+        }
 
         else return null;
     }
@@ -57,25 +65,40 @@ public class CommandFactory {
             return new ShowWarehouseCommand(parameters.get(2));
         }
         else{
-            throw new CommandNotInCorrectFormat(showCommandInstructionShip);
+            throw new CommandNotInCorrectFormat(showCommandInstructionShow);
         }
     }
     private ICommand CreateLoadCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "id")){
-            return new LoadContainerCommand("Zachodni",parameters.get(2),parameters.get(3));
+        if(Objects.equals(parameters.get(1), "container")){
+            return new LoadContainerCommand(parameters.get(2),parameters.get(3),parameters.get(4));
         }
-        else if(Objects.equals(parameters.get(1), "id")){
-            return new ShowShipCommand(parameters.get(2));
+        else if(Objects.equals(parameters.get(1), "all_containers")){
+            return new LoadAllContainersCommand(parameters.get(2),parameters.get(3));
         }
         else{
-            throw new CommandNotInCorrectFormat(showCommandInstructionShip);
+            throw new CommandNotInCorrectFormat(showCommandInstructionLoad);
+        }
+    }
+    private ICommand CreateDeleteCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
+        if(Objects.equals(parameters.get(1), "container")){
+            return new DeleteContainerCommand(parameters.get(2),parameters.get(3));
+        }
+        else{
+            throw new CommandNotInCorrectFormat(showCommandInstructionDelete);
         }
     }
 
-    private String showCommandInstructionShip = ("Argumenty komendy show: \n\t ships_id" +
-            "\t - \twykaz id statkow \n" +
+    private String showCommandInstructionShow = ("Argumenty komendy show: \n" +
+            "\t ships_id\t - \twykaz id statkow \n" +
             "\t id {id}\t - \tstatek o podanym id \n" +
+            "\t warehouses\t - \twykaz magazynów \n" +
             "\t warehouse {name}\t - \tstan podanego magazynu");
+    private String showCommandInstructionLoad = ("Argumenty komendy load: \n" +
+            "\tcontainer {container_id} {warehouse_name} {ship_id}\n" +
+            "\tall_containers {warehouse_name} {ship_id}\n");
+    private String showCommandInstructionDelete = ("Argumenty komendy delete: \n" +
+            "\tcontainer {container_id} {warehouse_name}\n");
+
 }
 
 
