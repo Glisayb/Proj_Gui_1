@@ -9,8 +9,9 @@ import java.util.regex.Pattern;
 
 public class CommandFactory {
 
-    String exitCommand = "exit ";
+    String exitCommand = "exit";
     String loadCommand = "load ";
+    String unloadCommand = "unload ";
     String showCommand = "show ";
     String deleteCommand = "delete ";
     String createCommand = "create ";
@@ -18,7 +19,7 @@ public class CommandFactory {
     Pattern commandPattern = Pattern.compile(("(\\S+)"));
 
     public String[] GetAvailableCommands(){
-        return new String[]{ exitCommand,loadCommand,saveCommand,showCommand,deleteCommand,createCommand };
+        return new String[]{ exitCommand,loadCommand,saveCommand,showCommand,deleteCommand,createCommand, unloadCommand };
     }
     public ICommand GetCommand(String commandString) throws CommandNotInCorrectFormat, CommandDoesNotExists {
 
@@ -46,6 +47,15 @@ public class CommandFactory {
                 parameters.add(matcher.group(1));
             }
             return CreateDeleteCommand(parameters);
+        }
+        else if(commandString.startsWith(exitCommand)){
+            ArrayList<String> parameters = new ArrayList<>();
+            var matcher = commandPattern.matcher(commandString);
+            while(matcher.find()){
+                parameters.add(matcher.group(1));
+            }
+            System.exit(2137);
+            return null;
         }
 
         else return null;
@@ -79,6 +89,17 @@ public class CommandFactory {
             throw new CommandNotInCorrectFormat(showCommandInstructionLoad);
         }
     }
+    private ICommand CreateUnloadCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
+        if(Objects.equals(parameters.get(1), "container")){
+            return new UnloadContainerCommand(parameters.get(2),parameters.get(3),parameters.get(4));
+        }
+        else if(Objects.equals(parameters.get(1), "all_containers")){
+            return new UnloadAllContainersCommand(parameters.get(2),parameters.get(3));
+        }
+        else{
+            throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
+        }
+    }
     private ICommand CreateDeleteCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
         if(Objects.equals(parameters.get(1), "container")){
             return new DeleteContainerCommand(parameters.get(2),parameters.get(3));
@@ -96,6 +117,9 @@ public class CommandFactory {
     private String showCommandInstructionLoad = ("Argumenty komendy load: \n" +
             "\tcontainer {container_id} {warehouse_name} {ship_id}\n" +
             "\tall_containers {warehouse_name} {ship_id}\n");
+    private String showCommandInstructionUnload = ("Argumenty komendy unload: \n" +
+            "\tcontainer {container_id} {ship_id} {warehouse_name}\n" +
+            "\tall_containers {ship_id} {warehouse_name}\n");
     private String showCommandInstructionDelete = ("Argumenty komendy delete: \n" +
             "\tcontainer {container_id} {warehouse_name}\n");
 

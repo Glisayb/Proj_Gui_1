@@ -1,10 +1,12 @@
 package com.company;
 
+import Exceptions.ContainerNotFoundException;
 import Exceptions.Ship.*;
 import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseNotFoundException;
+import Exceptions.WarehouseStorageCapacityExceededException;
 
 public interface ICommand {
 
-    void execute() throws HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, WarehouseItemNotFoundException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException, WarehouseNotFoundException;
+    void execute() throws HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, WarehouseItemNotFoundException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException, WarehouseNotFoundException, ContainerNotFoundException, WarehouseStorageCapacityExceededException;
 }
