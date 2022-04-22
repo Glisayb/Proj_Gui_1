@@ -1,0 +1,34 @@
+Nazwa magazynu : Wschodni
+Pojemność magazynu : 122
+Kontenery w magazynie : 
+	1. 
+		Id Kontenera : a35d1ff9-b79e-40d8-924b-868f35d94034
+		Wysokość ubezpieczenia : 33
+		Waga Kontenera : 121.0
+		Typ kontenera : Toksyczny płynny
+		Nazwa płynu : Skittlesowka
+		Gęstość : 92.7
+		Iso : 90900
+		Rodzaj niebezpieczeństwa : ALKOHOLIC
+		Data załadowania : 2022-04-21
+		Data końca składowania : 2022-04-26
+		---
+	2. 
+		Id Kontenera : 4680a412-d20f-42bb-aedd-c6b6ac5ce5da
+		Wysokość ubezpieczenia : 44
+		Waga Kontenera : 222.0
+		Typ kontenera : Ciężki
+		Iso : 200
+		Data załadowania : 2022-04-21
+		Data końca składowania : 2022-04-26
+		---
+	3. 
+		Id Kontenera : cb52622c-08c2-4687-ad9f-0933ce8223fc
+		Wysokość ubezpieczenia : 12
+		Waga Kontenera : 321.34
+		Typ kontenera : Zwykły
+		Data załadowania : 2022-04-21
+		Data końca składowania : 2022-04-26
+		---
+***
+		

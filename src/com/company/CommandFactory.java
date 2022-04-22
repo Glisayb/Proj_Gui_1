@@ -21,6 +21,7 @@ public class CommandFactory {
         return new String[]{ exitCommand,loadCommand,saveCommand,showCommand,deleteCommand,createCommand };
     }
     public ICommand GetCommand(String commandString) throws CommandNotInCorrectFormat, CommandDoesNotExists {
+
         if(commandString.startsWith(showCommand)){
             ArrayList<String> parameters = new ArrayList<>();
             var matcher = commandPattern.matcher(commandString);
@@ -29,12 +30,21 @@ public class CommandFactory {
             }
             return CreateShowCommand(parameters);
         }
-        else
-            return null;
+
+        else if(commandString.startsWith(loadCommand)){
+            ArrayList<String> parameters = new ArrayList<>();
+            var matcher = commandPattern.matcher(commandString);
+            while(matcher.find()){
+                parameters.add(matcher.group(1));
+            }
+            return CreateLoadCommand(parameters);
+        }
+
+        else return null;
     }
 
     private ICommand CreateShowCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "ships")){
+        if(Objects.equals(parameters.get(1), "ships_id")){
             return new ShowAllShipsCommand();
         }
         else if(Objects.equals(parameters.get(1), "id")){
@@ -44,8 +54,19 @@ public class CommandFactory {
             throw new CommandNotInCorrectFormat(showCommandInstructionShip);
         }
     }
+    private ICommand CreateLoadCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
+        if(Objects.equals(parameters.get(1), "id")){
+            return new LoadContainerCommand("Zachodni",parameters.get(2),parameters.get(3));
+        }
+        else if(Objects.equals(parameters.get(1), "id")){
+            return new ShowShipCommand(parameters.get(2));
+        }
+        else{
+            throw new CommandNotInCorrectFormat(showCommandInstructionShip);
+        }
+    }
 
-    private String showCommandInstructionShip = "Komenda show jako pierwszy argument przyjmuje słowo 'ships'";
+    private String showCommandInstructionShip = "Komenda show jako pierwszy argument przyjmuje słowo 'ships_id'";
 }
 
 

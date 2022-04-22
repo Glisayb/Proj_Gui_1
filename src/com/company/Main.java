@@ -19,7 +19,11 @@ public class Main {
 
     private static String shipsFilePath = "ship.txt";
     public static ArrayList<Ship> ships;
+    public static ArrayList<Warehouse> warehouses;
     public static void main(String[] args) {
+        Warehouse zachodni = new Warehouse("Zachodni",100);
+        warehouses.add(zachodni);
+        zachodni.storeInWarehouse(new ContBasic(22,334,55));
 
         if(!PersistanceStatics.FilePersistance.FileExists(shipsFilePath)){
             ships = GenerateShips();
@@ -41,7 +45,6 @@ public class Main {
 
 
     }
-
 
     private static ArrayList<Ship> GenerateShips() {
         var ships = new ArrayList<Ship>();
