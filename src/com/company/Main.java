@@ -24,13 +24,12 @@ public class Main {
 
         if (!PersistanceStatics.FilePersistance.FileExists(shipsFilePath)) {
             ships = GenerateShips();
-            warehouses = GenerateWarehouses();
 
         } else {
             var savedShips = PersistanceStatics.FilePersistance.Read(shipsFilePath);
             ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
-            warehouses = GenerateWarehouses();
         }
+        warehouses = GenerateWarehouses();
 
         ExecutorService service = Executors.newFixedThreadPool(10);
         service.submit(() -> {
@@ -45,16 +44,54 @@ public class Main {
     private static ArrayList<Warehouse> GenerateWarehouses()
     {
         var warehouses = new ArrayList<Warehouse>();
-        Warehouse zachodni = new Warehouse("Zachodni", 100);
-        try {
-            zachodni.storeInWarehouse(new ContBasic(334, 55));
-            zachodni.storeInWarehouse(new ContBasic(24, 1));
-        } catch (WarehouseStorageCapacityExceededException ee) {
-            ee.printStackTrace();
+        Warehouse zachodni = new Warehouse("Zachodni", 300);
+        var rand = new Random();
+        List<ContBasic> contBasics = new ArrayList<>();
+
+        for(int i = 0; i < 22; i ++){
+            contBasics.add(new ContBasic(rand.nextDouble(200), rand.nextInt(100000,200000000)));
         }
-        warehouses.add(zachodni);
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContToxicLiquid(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(5000), Pollutions.values()[rand.nextInt(Pollutions.values().length)], "Compound " + rand.nextInt(100) + (char)rand.nextInt(65, 90)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContCooling(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(5000)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContExplosive(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(500)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContHeavy(rand.nextDouble(400),  rand.nextInt(100000,200000000),  rand.nextInt(10000)));
+        }
+        for(int i = 0; i < 7; i ++){
+            contBasics.add(new ContLiquid(rand.nextDouble(200), rand.nextInt(100000,200000000), rand.nextDouble(5000)));
+        }
+        for(int i = 0; i < 13; i ++){
+            contBasics.add(new ContToxicLoose(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000), Pollutions.values()[rand.nextInt(Pollutions.values().length)], rand.nextBoolean()));
+        }
+
+        for(Warehouse warehouse : warehouses){
+            for(int i = 0; i<5; i++){
+                var container = contBasics.remove(rand.nextInt(contBasics.size()-1));
+                try{
+                    warehouse.storeInWarehouse(container);
+                }
+                catch (Exception e){
+
+                }
+            }
+        }
         return warehouses;
     }
+//        Warehouse zachodni = new Warehouse("Zachodni", 100);
+//        try {
+//            zachodni.storeInWarehouse(new ContBasic(334, 55));
+//            zachodni.storeInWarehouse(new ContBasic(24, 1));
+//        } catch (WarehouseStorageCapacityExceededException ee) {
+//            ee.printStackTrace();
+//        }
+//        warehouses.add(zachodni);
+//        return warehouses;
 
     private static ArrayList<Ship> GenerateShips() {
         var ships = new ArrayList<Ship>();
