@@ -1,7 +1,8 @@
-package com.company;
+package Commands;
 
 import Models.Ship;
 import Models.ShipCapacityInfo;
+import com.company.Main;
 
 public class CreateShipCommand implements ICommand {
 

@@ -1,6 +1,6 @@
 package com.company;
 
-import Exceptions.CommandNotInCorrectFormat;
+import Commands.ICommand;
 
 import java.util.Scanner;
 

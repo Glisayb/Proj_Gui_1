@@ -1,9 +1,9 @@
-package com.company;
+package Commands;
 
 import Models.Ship;
 import Persistance.ShipPersistance;
+import com.company.Main;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 

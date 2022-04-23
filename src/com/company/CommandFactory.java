@@ -1,9 +1,8 @@
 package com.company;
 
+import Commands.*;
 import Exceptions.CommandDoesNotExists;
 import Exceptions.CommandNotInCorrectFormat;
-import Persistance.PersistanceStatics;
-import Persistance.ShipPersistance;
 
 import java.util.ArrayList;
 import java.util.Objects;

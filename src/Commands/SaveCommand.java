@@ -1,9 +1,10 @@
-package com.company;
+package Commands;
 
 import Exceptions.Ship.*;
 import Exceptions.WarehouseItemNotFoundException;
 import Persistance.PersistanceStatics;
 import Persistance.ShipPersistance;
+import com.company.Main;
 
 public class SaveCommand implements ICommand{
 

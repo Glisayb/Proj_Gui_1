@@ -1,7 +1,8 @@
-package com.company;
+package Commands;
 
 import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseNotFoundException;
+import com.company.Main;
 
 import java.util.Objects;
 

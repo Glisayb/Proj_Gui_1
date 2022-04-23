@@ -1,4 +1,4 @@
-package com.company;
+package Commands;
 
 import Exceptions.ContainerNotFoundException;
 import Exceptions.Ship.*;
