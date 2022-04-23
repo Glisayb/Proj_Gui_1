@@ -254,3 +254,31 @@ Maksymalna Pojemność statku :
 		Typ kontenera : Zwykły
 		---
 ***
+6.
+Id statku : 2ebc11c8-b4e9-4cae-be5f-8af5236e587e 
+Nazwa statku : holender 
+Port macierzysty : portradom 
+Port docelowy : montevideo 
+Port wyjściowy : antananarywa 
+Maksymalna Pojemność statku :
+	Ogólna pojemność : 2 
+	Ogolna nośność : 2.0 
+	Kontenery z podłączeniem do prądu : 2 
+	Kontenery niebezpieczne : 2 
+	Kontenery ciężkie : 2 
+	Kontenery na statku :
+***
+7.
+Id statku : bfd177d3-7fde-42fd-9ab1-3aa2b1c1ebd1 
+Nazwa statku : holender 
+Port macierzysty : portradom 
+Port docelowy : montevideo 
+Port wyjściowy : antananarywa 
+Maksymalna Pojemność statku :
+	Ogólna pojemność : 2 
+	Ogolna nośność : 2.0 
+	Kontenery z podłączeniem do prądu : 2 
+	Kontenery niebezpieczne : 2 
+	Kontenery ciężkie : 2 
+	Kontenery na statku :
+***

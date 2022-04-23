@@ -21,7 +21,7 @@ public class CommandFactory {
     Pattern commandPattern = Pattern.compile(("(\\S+)"));
 
     public String[] GetAvailableCommands(){
-        return new String[]{ exitCommand,loadCommand,saveCommand,showCommand,deleteCommand,createCommand, unloadCommand };
+        return new String[]{ showCommand, loadCommand, unloadCommand, createCommand, deleteCommand, saveCommand, castOffCommand, exitCommand };
     }
     public ICommand GetCommand(String commandString) throws CommandNotInCorrectFormat, CommandDoesNotExists {
 
@@ -33,7 +33,6 @@ public class CommandFactory {
             }
             return CreateShowCommand(parameters);
         }
-
         else if(commandString.startsWith(loadCommand)){
             ArrayList<String> parameters = new ArrayList<>();
             var matcher = commandPattern.matcher(commandString);
@@ -148,10 +147,15 @@ public class CommandFactory {
     private ICommand CreateCreateCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
         if(Objects.equals(parameters.get(1), "container")){
             return new CreateContainerCommand(parameters.get(2),parameters.get(3),parameters.get(0));
-
         }
         else if(Objects.equals(parameters.get(1), "ship")){
             return new CreateShipCommand(parameters.get(2),parameters.get(3),parameters.get(4),parameters.get(5),Integer.parseInt(parameters.get(6)),Double.parseDouble(parameters.get(7)),Integer.parseInt(parameters.get(8)),Integer.parseInt(parameters.get(9)),Integer.parseInt(parameters.get(10)));
+        }
+        else if(Objects.equals(parameters.get(1), "warehouse")){
+            return new CreateWarehouse(parameters.get(2),Integer.parseInt(parameters.get(3)));
+        }
+        else if(Objects.equals(parameters.get(1), "info")){
+            throw new CommandNotInCorrectFormat(showCommandInstructionCreate);
         }
         else{
             throw new CommandNotInCorrectFormat(showCommandInstructionCreate);
@@ -182,16 +186,14 @@ public class CommandFactory {
     private String showCommandInstructionCastOff = ("Argumenty komendy cast_off: \n" +
             "\tship {ship_id}\n");
     private String showCommandInstructionCreate = ("Argumenty komendy create: \n" +
-            "\tcontainer {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n");
+            "\tcontainer {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
+            "\twarehouse {String_name} {int_capacity}";
     // tu trzeba dac coś
-    private String showCommandInstructionSave = ("Argumenty komendy create: \n" +
+    private String showCommandInstructionSave = ("Argumenty komendy save: \n" +
             "\t\nsave {path}"+
             "\t\nsave"+
-            "\t\nrevover {path}"+
-            "\t\nrevover");
-
-
-
+            "\t\nrestore {path}"+
+            "\t\nrestore");
 }
 
 
