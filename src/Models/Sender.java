@@ -1,4 +1,4 @@
-package Commands;
+package Models;
 
 import Exceptions.NumberNotAPeselException;
 
@@ -28,8 +28,13 @@ public class Sender {
         int yy = (num/10000);
         int mm = (num-yy)/100;
         int dd = num-mm;
-        yy =+ 1900;
-        return LocalDate.of(yy,mm,dd);
+        if (mm >20){
+            yy =+ 2000;
+            mm =- 20;
+        }
+        else yy =+ 1900;
+        LocalDate date = LocalDate.of(yy,mm,dd);
+        return date;
     }
     public String getSex(){
         return pesel%2==1?"Male":"Female";

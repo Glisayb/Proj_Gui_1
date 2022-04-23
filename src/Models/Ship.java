@@ -6,6 +6,7 @@ import Models.Containers.ContBasic;
 import Models.Containers.IContElectrified;
 import Models.Containers.IContHazardous;
 import Models.Containers.IContHeavy;
+import com.company.Main;
 import com.company.StaticClasses;
 
 import java.time.LocalTime;
@@ -129,16 +130,6 @@ public class Ship {
             }
         }
 
-        public void farewell(){
-            LocalTime time = LocalTime.now();
-            System.out.println(name + " ETD :" + time +
-                     "\n Farwell miss "+ name );
-            String.format
-                    ("%s ETD: %s \n Farwell miss  %s",
-                            name,  time, name);
-            //jak usunac statek
-            //ship = null;
-        }
 
     @Override
     public String toString() {

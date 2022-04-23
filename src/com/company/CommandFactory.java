@@ -17,6 +17,7 @@ public class CommandFactory {
     String deleteCommand = "delete ";
     String createCommand = "create ";
     String saveCommand = "save ";
+    String castOffCommand = "cast_off ";
     Pattern commandPattern = Pattern.compile(("(\\S+)"));
 
     public String[] GetAvailableCommands(){
@@ -64,6 +65,14 @@ public class CommandFactory {
                 parameters.add(matcher.group(1));
             }
             return CreateSaveCommand(parameters);
+        }
+        else if(commandString.startsWith(castOffCommand)){
+            ArrayList<String> parameters = new ArrayList<>();
+            var matcher = commandPattern.matcher(commandString);
+            while(matcher.find()){
+                parameters.add(matcher.group(1));
+            }
+            return CreateCastOffCommand(parameters);
         }
         else if(commandString.startsWith(exitCommand)){
             ArrayList<String> parameters = new ArrayList<>();
@@ -117,7 +126,15 @@ public class CommandFactory {
             throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
         }
     }
-    private ICommand CreateSaveCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
+    private ICommand CreateCastOffCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
+        if (Objects.equals(parameters.get(1), "ship")) {
+            return new CastOffCommand(parameters.get(2));
+        } else if (Objects.equals(parameters.get(1), "all_ships"))
+            return new CastOffAllCommand();
+        else throw new CommandNotInCorrectFormat(showCommandInstructionCastOff);
+
+    }
+       private ICommand CreateSaveCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
         if(Objects.equals(parameters.get(1), "save")){
             return new SaveCommand(parameters.get(2));
         }
@@ -162,6 +179,8 @@ public class CommandFactory {
             "\tall_containers {ship_id} {warehouse_name}\n");
     private String showCommandInstructionDelete = ("Argumenty komendy delete: \n" +
             "\tcontainer {container_id} {warehouse_name}\n");
+    private String showCommandInstructionCastOff = ("Argumenty komendy cast_off: \n" +
+            "\tship {ship_id}\n");
     private String showCommandInstructionCreate = ("Argumenty komendy create: \n" +
             "\tcontainer {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n");
     // tu trzeba dac coś
