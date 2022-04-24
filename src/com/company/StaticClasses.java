@@ -16,6 +16,13 @@ public class StaticClasses {
             return (uuid.toString());
         }
     }
+    public static void loadingTrain(ContBasic container)
+    {
+        Main.containersIntoTrain.add(container);
+        if (Main.containersIntoTrain.size()>=9){
+            new TrainRunning();
+        }
+    }
 
     public static class Timer extends Thread{
         public static LocalDate date = LocalDate.now();
@@ -31,16 +38,6 @@ public class StaticClasses {
         System.out.printf("%s ETD: %s \n\t Farwell miss  %s",
                 name,  time, name);
         Main.ships.remove(StaticClasses.getShip(shipId));
-    }
-
-    public void loadTrain(Ship ship){
-
-        var list = ship.containerList;
-        for (ContBasic container : list){
-            Main.shipsIntoTrain.add(container);
-            ship.containerList.remove(container);
-        }
-        Train.run();
     }
 
 }

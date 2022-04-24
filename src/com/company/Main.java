@@ -1,6 +1,5 @@
 package com.company;
 
-import Exceptions.IrresponsibleSenderWithDangerousGoodsException;
 import Models.*;
 import Models.Containers.*;
 import Persistance.PersistanceStatics;
@@ -16,7 +15,7 @@ public class Main {
 
     private static final String shipsFilePath = "ship.txt";
     private static final String warehousesFilePath = "warehouse.txt";
-    public static ArrayList<ContBasic> shipsIntoTrain;
+    public static ArrayList<ContBasic> containersIntoTrain;
     public static ArrayList<Ship> ships;
     public static ArrayList<Warehouse> warehouses;
     public static ArrayList<ContBasic> contBasics;
@@ -57,6 +56,7 @@ public class Main {
             }
         });
         service.submit(new Menu());
+
     }
 
     private static ArrayList<ContBasic> GenerateContainers() {

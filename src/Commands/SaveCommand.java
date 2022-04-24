@@ -21,7 +21,7 @@ public class SaveCommand implements ICommand{
     public void execute() throws HazardousContainerStorageExceededException, ContainerStorageWeightExceededException, WarehouseItemNotFoundException, ContainerStorageCapacityExceededException, ElectrifiedContainerStorageExceededException, HeavyContainerStorageExceededException {
 
         PersistanceStatics.FilePersistance.WriteFile(path, ShipPersistance.Store.PrepareListOfShips(Main.ships));
-        System.out.printf("Database saved - path : %s",path);
+        System.out.printf("Ships database saved - path : %s",path);
 
     }
 }
