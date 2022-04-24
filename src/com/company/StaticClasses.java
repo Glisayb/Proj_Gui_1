@@ -1,9 +1,5 @@
 package com.company;
-import Models.Ship;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class StaticClasses {

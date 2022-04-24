@@ -14,84 +14,82 @@ import java.util.stream.Collectors;
 
 public class WarehousePersistance {
 
-    private Warehouse warehouse;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static class Store {
 
-    public WarehousePersistance(Warehouse warehouse) {
+        Warehouse warehouse;
+        private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.warehouse = warehouse;
-    }
+        public static String PrepareToSave(Warehouse warehouse) {
 
-    public String PrepareToSave() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(String.format("Nazwa magazynu : %s\n", warehouse.name));
+            sb.append(String.format("Pojemność magazynu : %s\n", warehouse.capacity));
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(String.format("Nazwa magazynu : %s \n", warehouse.name));
-        sb.append(String.format("Pojemność magazynu : %s \n\t", warehouse.capacity));
+            var weightComparator = Comparator.comparing(WarehouseItem::getWeight);
+            var dateComparator = Comparator.comparing(WarehouseItem::getLoadDate);
+            var sortedWarehouseIteams = warehouse.warCollection.stream().
+                    sorted(weightComparator).
+                    sorted(dateComparator).
+                    collect(Collectors.toList());
 
-        var weightComparator = Comparator.comparing(WarehouseItem::getWeight);
-        var dateComparator = Comparator.comparing(WarehouseItem::getLoadDate);
-        var sortedWarehouseIteams = warehouse.warCollection.stream().
-                sorted(weightComparator).
-                sorted(dateComparator).
-                collect(Collectors.toList());
+            sb.append("Kontenery w magazynie : \n");
 
-        sb.append("Kontenery w magazynie :\n");
+            for (int i = 0; i < sortedWarehouseIteams.size(); i++) {
+                WarehouseItem warehouseItem = sortedWarehouseIteams.get(i);
+                ContBasic container = warehouseItem.getContainer();
+                sb.append("\t" + (i + 1) + ". ");
 
-        for (int i = 0; i < sortedWarehouseIteams.size(); i++) {
-            WarehouseItem warehouseItem = sortedWarehouseIteams.get(i);
-            ContBasic container = warehouseItem.getContainer();
-            sb.append("\t" + (i + 1) + ". ");
-
-            ContainerPerisistance containerPerisistance = new ContainerPerisistance(container);
-            String containerString = containerPerisistance.GenerateContainerString();
-            sb.append(String.format("Data załadowania : %s \n", warehouseItem.getLoadDate().format(formatter)));
-            sb.append(String.format("Data końca składowania : %s \n\t", warehouseItem.getExpirationDate()));
-            sb.append(containerString);
-            sb.append("\n\t\t---\n");
-        }
-        sb.append("***\n\t\t");
-        return sb.toString();
-    }
-
-    // pattern magazynu
-    private Pattern warehousePattern = Pattern.compile("Nazwa magazynu : [.\\s\\S]*?'*'{3}\\n");
-
-    // patterny propertasów magazyny
-    private Pattern warehouseNamePattern = Pattern.compile("Nazwa magazynu : (.*) \\n");
-    private Pattern capacityPattern = Pattern.compile("Pojemność magazynu : (.*) \\n");
-
-    // pattern kontenerów
-    private Pattern containerPattern = Pattern.compile("Id Kontenera : [.\\s\\S]*?-{3}\\n");
-    // pattern kontenerów WHiteamów
-    private Pattern loadDataPattern = Pattern.compile("Data załadowania : (.*) \\n");
-    private Pattern expirationDataPattern = Pattern.compile("Data końca składowania : (.*) \\n");
-
-    public Warehouse CreateWarehouseFromString(String warehouseString){
-
-        Warehouse warehouseWithProperties = getWarehouseParamiters(warehouseString);
-        ArrayList<WarehouseItem> warehouseItems = new ArrayList<>();
-
-        var matchWarehouse = containerPattern.matcher(warehouseString);
-        while(matchWarehouse.find()){
-            String wareHouseString = matchWarehouse.group(0);
-            String dateString = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, loadDataPattern);
-            var date = LocalDate.parse(dateString, formatter);
-            String expirationDate = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, expirationDataPattern);
-            var container = ContainerPerisistance.getContainerWithParameters(warehouseString);
-            warehouseItems.add(new WarehouseItem(container, date, Warehouse.DetrmineHowLongContainerCanBeStored(container)));
+                ContainerPerisistance containerPerisistance = new ContainerPerisistance(container);
+                String containerString = containerPerisistance.GenerateContainerString();
+                sb.append(containerString);
+                sb.append(String.format("\n\t\tData załadowania : %s", warehouseItem.getLoadDate().format(formatter)));
+                sb.append(String.format("\n\t\tData końca składowania : %s", warehouseItem.getExpirationDate()));
+                sb.append("\n\t\t---\n");
+            }
+            sb.append("***\n\t\t");
+            return sb.toString();
         }
 
-        warehouseWithProperties.warCollection = warehouseItems;
-        return warehouseWithProperties;
+        // pattern magazynu
+        private static Pattern warehousePattern = Pattern.compile("Nazwa magazynu : [.\\s\\S]*?\\*{3}");
+
+        // patterny propertasów magazyny
+        private static Pattern warehouseNamePattern = Pattern.compile("Nazwa magazynu : (.*)\\n");
+        private static Pattern capacityPattern = Pattern.compile("Pojemność magazynu : (.*)\\n");
+
+        // pattern kontenerów
+        private static Pattern warehouseIteamPattern = Pattern.compile("Id Kontenera : [.\\s\\S]*?-{3}\\n");
+        // pattern kontenerów WHiteamów
+        private static Pattern loadDataPattern = Pattern.compile("Data załadowania : (.*)\\n");
+        private static Pattern expirationDataPattern = Pattern.compile("Data końca składowania : (.*)\\n");
+
+
+        public static Warehouse getWarehouseParamiters(String statek) {
+            String warehouseName = PersistanceStatics.PatternProperties.getStringProperty(statek, warehouseNamePattern);
+            int capacity = PersistanceStatics.PatternProperties.getIntProperty(statek, capacityPattern);
+
+            Warehouse importWarehouse = new Warehouse(warehouseName, capacity);
+            importWarehouse.toString();
+            return importWarehouse;
+        }
+
+        public static Warehouse CreateWarehouseFromString(String warehouseString) {
+
+            Warehouse warehouseWithProperties = getWarehouseParamiters(warehouseString);
+            ArrayList<WarehouseItem> warehouseItems = new ArrayList<>();
+
+            var matchWarehouse = warehouseIteamPattern.matcher(warehouseString);
+            while (matchWarehouse.find()) {
+                String wareHouseString = matchWarehouse.group(0);
+                String dateString = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, loadDataPattern);
+                var date = LocalDate.parse(dateString, formatter);
+                String expirationDate = PersistanceStatics.PatternProperties.getStringProperty(warehouseString, expirationDataPattern);
+                var container = ContainerPerisistance.getContainerWithParameters(warehouseString);
+                warehouseItems.add(new WarehouseItem(container, date, Warehouse.DetrmineHowLongContainerCanBeStored(container)));
+            }
+
+            warehouseWithProperties.warCollection = warehouseItems;
+            return warehouseWithProperties;
+        }
     }
-
-    public Warehouse getWarehouseParamiters(String statek){
-        String warehouseName = PersistanceStatics.PatternProperties.getStringProperty(statek, warehouseNamePattern);
-        int capacity = PersistanceStatics.PatternProperties.getIntProperty(statek, capacityPattern);
-
-        Warehouse importWarehouse = new Warehouse( warehouseName, capacity);
-        importWarehouse.toString();
-        return importWarehouse;
-    }
-
 }

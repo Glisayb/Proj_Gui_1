@@ -4,6 +4,7 @@ import Models.*;
 import Models.Containers.*;
 import Persistance.PersistanceStatics;
 import Persistance.ShipPersistance;
+import Persistance.WarehousePersistance;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -132,7 +133,30 @@ public class Main {
                 }
             }
         }
+        try {
+            Boolean read = true;
+            Boolean write = false;
+            var path = "warehouse.txt";
+            if (write) {
+                warehouse.storeInWarehouse(heavy);
+                warehouse.storeInWarehouse(toxicLiquid);
+                warehouse.storeInWarehouse(basic);
+
+                var warehouseAsString = WarehousePersistance.Store.PrepareToSave(warehouse);
+                PersistanceStatics.FilePersistance.WriteFile(path, warehouseAsString);
+            }
+            if (read) {
+                var warehouseAsString = PersistanceStatics.FilePersistance.Read(path);
+                var warehouseLoaded = WarehousePersistance.Store.CreateWarehouseFromString(warehouseAsString);
+                warehouseLoaded.showAll();
+            }
 
         return ships;
+    }
+}
+        } catch (Exception ee) {
+            System.out.println(ee.toString());
+
+        }
     }
 }
