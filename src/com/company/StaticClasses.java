@@ -27,10 +27,7 @@ public class StaticClasses {
         LocalTime time = LocalTime.now();
         Ship ship = StaticClasses.getShip(shipId);
         String name = ship.name;
-        System.out.println(name + " ETD : " + time +
-                "\n Farwell miss "+ name );
-        String.format
-                ("%s ETD: %s \n Farwell miss  %s",
+        System.out.printf("%s ETD: %s \n\t Farwell miss  %s",
                         name,  time, name);
         Main.ships.remove(StaticClasses.getShip(shipId));
     }

@@ -22,6 +22,7 @@ public class RestoreCommand implements ICommand{
 
         var savedShips = PersistanceStatics.FilePersistance.Read(path);
         Main.ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
+        System.out.printf("Database restored - from path : %s",path);
 
     }
 }

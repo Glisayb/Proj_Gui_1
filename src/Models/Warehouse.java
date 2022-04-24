@@ -1,5 +1,6 @@
 package Models;
 
+import Exceptions.IrresponsibleSenderWithDangerousGoodsException;
 import Exceptions.Ship.*;
 import Exceptions.WarehouseItemNotFoundException;
 import Exceptions.WarehouseStorageCapacityExceededException;
@@ -98,5 +99,9 @@ public class Warehouse {
         for (String id : list) {
             loadIntoShip(ship, id);
         }
+    }
+    public void removeDangerousGoods(WarehouseItem warehouseItem) throws IrresponsibleSenderWithDangerousGoodsException {
+        warCollection.remove(warehouseItem);
+        throw new IrresponsibleSenderWithDangerousGoodsException(warehouseItem.getId());
     }
 }

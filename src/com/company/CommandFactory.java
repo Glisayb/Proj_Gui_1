@@ -186,14 +186,13 @@ public class CommandFactory {
     private String showCommandInstructionCastOff = ("Argumenty komendy cast_off: \n" +
             "\tship {ship_id}\n");
     private String showCommandInstructionCreate = ("Argumenty komendy create: \n" +
-            "\tcontainer {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
-            "\twarehouse {String_name} {int_capacity}";
+            "\tship {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
+            "\twarehouse {String_name} {int_capacity}\n"+
+            "\tcontainer {warehouse} {container_Type} Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Nazwa płynu {s} Gęstość {d} Niebezpieczeństwo trujących oparów {tak/nie} Rodzaj niebezpieczeństwa {BIOHAZZARD} Zasięg rażenia {d} Pobór prundu {d}\n";
     // tu trzeba dac coś
     private String showCommandInstructionSave = ("Argumenty komendy save: \n" +
-            "\t\nsave {path}"+
-            "\t\nsave"+
-            "\t\nrestore {path}"+
-            "\t\nrestore");
+            "\t\nsave {path.txt}"+
+            "\t\nrestore {path.txt}");
 }
 
 
