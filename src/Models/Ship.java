@@ -1,5 +1,6 @@
 package Models;
 
+import Exceptions.ContainerNotFoundException;
 import Exceptions.Ship.*;
 import Models.Containers.ContBasic;
 import Models.Containers.IContElectrified;
@@ -7,8 +8,8 @@ import Models.Containers.IContHazardous;
 import Models.Containers.IContHeavy;
 import com.company.StaticClasses;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Ship {
@@ -113,19 +114,18 @@ public class Ship {
                 }
             }
         }
-        //Ostatecznie gdy wszystkie powyzsze warunki przejda dodajemy kontener
         containerList.add(container);
-
         }
-        public void farewell(){
-            LocalTime time = LocalTime.now();
-            System.out.println(name + " ETD :" + time +
-                     "\n Farwell miss "+ name );
-            String.format
-                    ("%s ETD: %s \n Farwell miss  %s",
-                            name,  time, name);
-            //jak usunac statek
-            //ship = null;
+
+        public ContBasic unloadContainer(String containerId) throws ContainerNotFoundException {
+            var container = containerList.stream().filter(x -> Objects.equals(x.getId(), containerId)).findFirst();
+            if(container.isPresent()){
+                containerList.remove(container.get());
+                return container.get();
+            }
+            else{
+                throw new ContainerNotFoundException(containerId, shipId);
+            }
         }
 
     @Override
@@ -137,6 +137,9 @@ public class Ship {
                 ", destination='" + destination + '\'' +
                 ", shipId='" + shipId + '\'' +
                 '}';
+    }
+    public String getName() {
+        return name;
     }
 }
 

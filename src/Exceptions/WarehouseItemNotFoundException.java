@@ -6,7 +6,7 @@ public class WarehouseItemNotFoundException extends Exception{
             (String id, String name){
 
         super(String.format
-                ("Warehouse item with id: %s not found on '%s' ship",
+                ("Warehouse item with id: %s not found in '%s' warehouse",
                         id, name));
 
     }

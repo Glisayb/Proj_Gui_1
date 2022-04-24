@@ -1,14 +1,14 @@
 package Models;
 
-public enum Days {
+public enum StorageDaysLimit {
     ContToxicLoose(14),
     ContToxicLiquid(10),
     ContExplosive(5),
-    ContBasic(0);
+    None(0);
 
     int maxStorage;
 
-    Days(int maxStorage){
+    StorageDaysLimit(int maxStorage){
         this.maxStorage = maxStorage;
     }
 }

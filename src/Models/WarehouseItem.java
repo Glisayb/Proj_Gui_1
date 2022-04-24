@@ -6,33 +6,15 @@ import java.time.LocalDate;
 public class WarehouseItem {
     private ContBasic container;
     private LocalDate expirationDate;
+    private LocalDate loadDate;
 
-    public WarehouseItem(ContBasic container, LocalDate loadDate) {
+    public WarehouseItem(ContBasic container, LocalDate loadDate, StorageDaysLimit storageDaysLimit) {
         this.container = container;
-        expirationDate = null;
-    }
-
-    public WarehouseItem(ContToxicLoose container, LocalDate loadDate) {
-        this.container = container;
-        expirationDate = loadDate.plusDays
-                (Days.ContToxicLoose.maxStorage);
-    }
-
-    public WarehouseItem(ContToxicLiquid container, LocalDate loadDate) {
-        this.container = container;
-        expirationDate = loadDate.plusDays
-                (Days.ContToxicLiquid.maxStorage);
-    }
-
-    public WarehouseItem(ContExplosive container, LocalDate loadDate) {
-        this.container = container;
-        expirationDate = loadDate.plusDays
-                (Days.ContExplosive.maxStorage);
-    }
-
-    public WarehouseItem(ContBasic container) {
-
-        this.container = container;
+        this.loadDate = loadDate;
+        if(storageDaysLimit == StorageDaysLimit.None)
+            expirationDate = null;
+        else
+            expirationDate = loadDate.plusDays(storageDaysLimit.maxStorage);
     }
 
     public String getId() {
@@ -43,4 +25,7 @@ public class WarehouseItem {
     public ContBasic getContainer() {
         return container;
     }
+    public LocalDate getLoadDate() { return loadDate;}
+    public LocalDate getExpirationDate() { return expirationDate;}
+    public double getWeight() {return container.getWeight();}
 }
