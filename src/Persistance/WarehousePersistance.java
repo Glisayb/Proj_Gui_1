@@ -1,6 +1,7 @@
 package Persistance;
 
 import Models.Containers.ContBasic;
+import Models.Ship;
 import Models.Warehouse;
 import Models.WarehouseItem;
 
@@ -16,8 +17,26 @@ public class WarehousePersistance {
 
     public static class Store {
 
-        Warehouse warehouse;
         private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        public static String PrepareListOfWarehouses(ArrayList<Warehouse> warehouses) {
+            var sortedWarehouse = warehouses.stream().sorted(Comparator.comparing(s -> s.name, Comparator.naturalOrder())).toList();
+            StringBuffer warehousesAsString = new StringBuffer();
+            for(Warehouse warehouse : sortedWarehouse){
+                warehousesAsString.append(sortedWarehouse.indexOf(warehouse) + 1 +".\n");
+                warehousesAsString.append(PrepareToSave(warehouse));
+            }
+            return warehousesAsString.toString();
+        }
+        public static ArrayList<Warehouse> CreateListOfWarehousesFromString(String warehouses) {
+            var matchWarehouse = warehousePattern.matcher(warehouses);
+            ArrayList<Warehouse> warehouseList = new ArrayList<>();
+            while (matchWarehouse.find()) {
+                String shipString = matchWarehouse.group(0);
+                warehouseList.add(CreateWarehouseFromString(shipString));
+            }
+            return warehouseList;
+        }
 
         public static String PrepareToSave(Warehouse warehouse) {
 

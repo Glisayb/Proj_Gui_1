@@ -1,6 +1,7 @@
-package com.company;
+package Commands;
 
 import Commands.ICommand;
+import com.company.StaticClasses;
 
 public class CastOffCommand implements ICommand {
 

@@ -1,5 +1,6 @@
 package com.company;
 
+import Exceptions.IrresponsibleSenderWithDangerousGoodsException;
 import Models.*;
 import Models.Containers.*;
 import Persistance.PersistanceStatics;
@@ -13,7 +14,9 @@ import java.util.concurrent.*;
 
 public class Main {
 
-    private static String shipsFilePath = "ship.txt";
+    private static final String shipsFilePath = "ship.txt";
+    private static final String warehousesFilePath = "warehouse.txt";
+    public static ArrayList<ContBasic> shipsIntoTrain;
     public static ArrayList<Ship> ships;
     public static ArrayList<Warehouse> warehouses;
     public static ArrayList<ContBasic> contBasics;
@@ -26,7 +29,13 @@ public class Main {
             var savedShips = PersistanceStatics.FilePersistance.Read(shipsFilePath);
             ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
         }
-        warehouses = GenerateWarehouses();
+        if (!PersistanceStatics.FilePersistance.FileExists(warehousesFilePath)) {
+            warehouses = GenerateWarehouses();
+        } else {
+            var savedWarehouses = PersistanceStatics.FilePersistance.Read(warehousesFilePath);
+            warehouses = WarehousePersistance.Store.CreateListOfWarehousesFromString(savedWarehouses);
+        }
+
 
         ExecutorService service = Executors.newFixedThreadPool(10);
         service.submit(() -> {
@@ -41,8 +50,8 @@ public class Main {
                         }
                     }
                     catch (Exception e){
-                        System.out.printf("Dzień : %s \n", StaticClasses.Timer.date);
-                        System.out.printf("Usunieto kontener \n");
+                        System.out.printf("Dzień : %s \t", StaticClasses.Timer.date);
+                        System.out.println(e.toString());
                     }
                 }
             }
@@ -133,30 +142,6 @@ public class Main {
                 }
             }
         }
-        try {
-            Boolean read = true;
-            Boolean write = false;
-            var path = "warehouse.txt";
-            if (write) {
-                warehouse.storeInWarehouse(heavy);
-                warehouse.storeInWarehouse(toxicLiquid);
-                warehouse.storeInWarehouse(basic);
-
-                var warehouseAsString = WarehousePersistance.Store.PrepareToSave(warehouse);
-                PersistanceStatics.FilePersistance.WriteFile(path, warehouseAsString);
-            }
-            if (read) {
-                var warehouseAsString = PersistanceStatics.FilePersistance.Read(path);
-                var warehouseLoaded = WarehousePersistance.Store.CreateWarehouseFromString(warehouseAsString);
-                warehouseLoaded.showAll();
-            }
-
         return ships;
-    }
-}
-        } catch (Exception ee) {
-            System.out.println(ee.toString());
-
-        }
     }
 }

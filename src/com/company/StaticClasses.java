@@ -1,5 +1,10 @@
 package com.company;
+import Models.Containers.ContBasic;
+import Models.Ship;
+
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class StaticClasses {
@@ -24,8 +29,18 @@ public class StaticClasses {
         Ship ship = StaticClasses.getShip(shipId);
         String name = ship.name;
         System.out.printf("%s ETD: %s \n\t Farwell miss  %s",
-                        name,  time, name);
+                name,  time, name);
         Main.ships.remove(StaticClasses.getShip(shipId));
+    }
+
+    public void loadTrain(Ship ship){
+
+        var list = ship.containerList;
+        for (ContBasic container : list){
+            Main.shipsIntoTrain.add(container);
+            ship.containerList.remove(container);
+        }
+        Train.run();
     }
 
 }

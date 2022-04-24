@@ -115,8 +115,12 @@ public class CommandFactory {
         }
     }
     private ICommand CreateUnloadCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "container")){
-            return new UnloadContainerCommand(parameters.get(2),parameters.get(3),parameters.get(4));
+        if(Objects.equals(parameters.get(1), "container"))
+            if(Objects.equals(parameters.get(2), "into_warehouse")){
+            return new UnloadContainerCommand(parameters.get(3),parameters.get(4),parameters.get(5));
+            if(Objects.equals(parameters.get(2), "on_train")){
+                return new UnloadContainerOnTrainCommand(parameters.get(3),parameters.get(4),parameters.get(5));
+            }
         }
         else if(Objects.equals(parameters.get(1), "all_containers")){
             return new UnloadAllContainersCommand(parameters.get(2),parameters.get(3));
@@ -186,10 +190,9 @@ public class CommandFactory {
     private String showCommandInstructionCastOff = ("Argumenty komendy cast_off: \n" +
             "\tship {ship_id}\n");
     private String showCommandInstructionCreate = ("Argumenty komendy create: \n" +
-            "\tship {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
             "\twarehouse {String_name} {int_capacity}\n"+
+            "\tship {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
             "\tcontainer {warehouse} {container_Type} Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Nazwa płynu {s} Gęstość {d} Niebezpieczeństwo trujących oparów {tak/nie} Rodzaj niebezpieczeństwa {BIOHAZZARD} Zasięg rażenia {d} Pobór prundu {d}\n";
-    // tu trzeba dac coś
     private String showCommandInstructionSave = ("Argumenty komendy save: \n" +
             "\t\nsave {path.txt}"+
             "\t\nrestore {path.txt}");
