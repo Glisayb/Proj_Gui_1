@@ -1,75 +1,138 @@
 package com.company;
 
-import Exceptions.WarehouseItemNotFoundException;
-import Exceptions.WarehouseStorageCapacityExceededException;
 import Models.*;
 import Models.Containers.*;
 import Persistance.PersistanceStatics;
 import Persistance.ShipPersistance;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.*;
 
 public class Main {
 
+    private static String shipsFilePath = "ship.txt";
+    public static ArrayList<Ship> ships;
+    public static ArrayList<Warehouse> warehouses;
+    public static ArrayList<ContBasic> contBasics;
     public static void main(String[] args) {
 
-        ShipCapacityInfo intel1 = new ShipCapacityInfo(4224,2137,10,7,13);
-        ShipCapacityInfo intel2 = new ShipCapacityInfo(1245,1236,3,1,7);
-        ShipCapacityInfo intel3 = new ShipCapacityInfo(222,3769,5,2,5);
+        contBasics = GenerateContainers();
+        if (!PersistanceStatics.FilePersistance.FileExists(shipsFilePath)) {
+            ships = GenerateShips();
+        } else {
+            var savedShips = PersistanceStatics.FilePersistance.Read(shipsFilePath);
+            ships = ShipPersistance.Store.CreateListOfShipsFromString(savedShips);
+        }
+        warehouses = GenerateWarehouses();
 
-        Ship zenobia = new Ship ("Zenobia", "Nowy York", "Lodz","London", intel2);
-        Ship amanda = new Ship("Amanda","Amsterdam","Borholm","Danzig", intel1);
-        Ship suzie = new Ship("Suzie","Radom","Ulaanbaatar","Montevideo", intel3);
-
-        ContBasic basic = new ContBasic(321.34,12);
-        ContHeavy heavy = new ContHeavy(222,44,200);
-        ContCooling cooling = new ContCooling(222,44,200, 33.4);
-        ContExplosive explosive = new ContExplosive(421.11,87,90090,150);
-        ContToxicLiquid toxicLiquid = new ContToxicLiquid( 121,33,90900,92.7, Pollutions.ALKOHOLIC,"Skittlesowka");
-        ContToxicLoose toxicLoose = new ContToxicLoose(143.21,42,5555,Pollutions.STUPIDITY, true);
-        ContExplosive explosive2 = new ContExplosive(33.21,17,10090,3000);
-        ContToxicLiquid toxicLiquid2 = new ContToxicLiquid( 22,73,00700,4.0, Pollutions.NIGHT_POLLUTIONS,"Gęste");
-
-        try{
-            Boolean read = false;
-            Boolean write = true;
-            var path = "ship.txt";
-            if(write){
-                zenobia.loadContainer(basic);
-                zenobia.loadContainer(heavy);
-                zenobia.loadContainer(toxicLiquid);
-
-                amanda.loadContainer(toxicLiquid);
-                amanda.loadContainer(cooling);
-                amanda.loadContainer(explosive);
-
-                suzie.loadContainer(toxicLiquid);
-                suzie.loadContainer(cooling);
-                suzie.loadContainer(explosive);
-                suzie.loadContainer(toxicLiquid2);
-                suzie.loadContainer(explosive2);
-
-                ArrayList<Ship> ships = new ArrayList<>();
-                ships.add(zenobia);
-                ships.add(amanda);
-                ships.add(suzie);
-                var shipsAsString = ShipPersistance.Store.PrepareListOfShips(ships);
-                PersistanceStatics.FilePersistance.WriteFile(path, shipsAsString);
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        service.submit(() -> {
+            while (true) {
+                Thread.sleep(5000);
+                StaticClasses.Timer.date = StaticClasses.Timer.date.plusDays(1);
+                for(Warehouse warehouse : warehouses){
+                    var warehouseItemList = warehouse.warCollection.stream().filter(w -> Objects.equals(w.getExpirationDate(), StaticClasses.Timer.date)).toList();
+                    try {
+                        for (WarehouseItem warehouseItem : warehouseItemList) {
+                            warehouse.removeDangerousGoods(warehouseItem);
+                        }
+                    }
+                    catch (Exception e){
+                        System.out.printf("Dzień : %s \n", StaticClasses.Timer.date);
+                        System.out.printf("Usunieto kontener \n");
+                    }
+                }
             }
-            if(read){
-                var shipsAsString = PersistanceStatics.FilePersistance.Read(path);
-                var shipsLoaded = ShipPersistance.Store.CreateListOfShipsFromString(shipsAsString);
-                System.out.println(shipsLoaded);
+        });
+        service.submit(new Menu());
+    }
+
+    private static ArrayList<ContBasic> GenerateContainers() {
+        ArrayList<ContBasic> contBasics = new ArrayList<>();
+        var rand = new Random();
+
+        for(int i = 0; i < 22; i ++){
+            contBasics.add(new ContBasic(rand.nextDouble(200), rand.nextInt(100000,200000000)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContToxicLiquid(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(5000), Pollutions.values()[rand.nextInt(Pollutions.values().length)], "Compound " + rand.nextInt(100) + (char)rand.nextInt(65, 90)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContCooling(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(5000)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContExplosive(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000),  rand.nextDouble(500)));
+        }
+        for(int i = 0; i < 5; i ++){
+            contBasics.add(new ContHeavy(rand.nextDouble(400),  rand.nextInt(100000,200000000),  rand.nextInt(10000)));
+        }
+        for(int i = 0; i < 7; i ++){
+            contBasics.add(new ContLiquid(rand.nextDouble(200), rand.nextInt(100000,200000000), rand.nextDouble(5000)));
+        }
+        for(int i = 0; i < 13; i ++){
+            contBasics.add(new ContToxicLoose(rand.nextDouble(200),  rand.nextInt(100000,200000000),  rand.nextInt(10000), Pollutions.values()[rand.nextInt(Pollutions.values().length)], rand.nextBoolean()));
+        }
+        return contBasics;
+    }
+    private static ArrayList<Warehouse> GenerateWarehouses()
+    {
+
+        var warehouses = new ArrayList<Warehouse>();
+        var zachodni = new Warehouse("Zachodni", 300);
+        warehouses.add(zachodni);
+        var dolny = new Warehouse("Dolny", 99);
+        warehouses.add(dolny);
+        var rand = new Random();
+
+        for(Warehouse warehouse : warehouses){
+            for(int i = 0; i< rand.nextInt(15); i++){
+                var container = contBasics.remove(rand.nextInt(contBasics.size()-1));
+                try{
+                    warehouse.storeInWarehouse(container);
+                }
+                catch (Exception e){
+                }
             }
+        }
+        return warehouses;
+    }
 
+    private static ArrayList<Ship> GenerateShips() {
+        var ships = new ArrayList<Ship>();
 
+        ShipCapacityInfo tinyCapacity = new ShipCapacityInfo(20,20000,6,6,6);
+        ShipCapacityInfo smallCapacity = new ShipCapacityInfo(25,25000,5,6,6);
+        ShipCapacityInfo mediumCapacity = new ShipCapacityInfo(50,50000,15,5, 7);
+        ShipCapacityInfo bigCapacity = new ShipCapacityInfo(100,100000,25,10,15);
+        ShipCapacityInfo hugeCapacity = new ShipCapacityInfo(1000,1000000,100,100,100);
 
+        var rand = new Random();
 
+        var zenobia = new Ship ("Zenobia", "Port Newark", "Gdańsk","Maryport", tinyCapacity);
+        ships.add(zenobia);
+        var victoria = new Ship ("Victoria", "Port of Tacoma", "Eden Harbour","Port Botany", smallCapacity);
+        ships.add(victoria);
+        var titanic = new Ship ("Titanic", "Porthoustock", "Bideford","Birkenhead", mediumCapacity);
+        ships.add(titanic);
+        var kalmar = new Ship ("Kalmar", "Seville", "Huelva","Port of Long Beach", bigCapacity);
+        ships.add(kalmar);
+        var octopus = new Ship ("Ośmiornica", "Bilbao", "Harbour of Yamba","Llandulas", hugeCapacity);
+        ships.add(octopus);
 
-        }catch(Exception e){
-            System.out.println(e.toString());
+        for(Ship ship : ships){
+            for(int i = 0; i<5; i++){
+                var container = contBasics.remove(rand.nextInt(contBasics.size()-1));
+                try{
+                    ship.loadContainer(container);
+                }
+                catch (Exception e){
+
+                }
+            }
         }
 
+        return ships;
     }
 }
