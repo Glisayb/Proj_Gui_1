@@ -52,6 +52,7 @@ public class CommandFactory {
         else if(commandString.startsWith(createCommand)){
             ArrayList<String> parameters = new ArrayList<>();
             var matcher = commandPattern.matcher(commandString);
+            parameters.add(commandString);
             while(matcher.find()){
                 parameters.add(matcher.group(1));
             }
@@ -72,6 +73,14 @@ public class CommandFactory {
                 parameters.add(matcher.group(1));
             }
             return CreateCastOffCommand(parameters);
+        }
+        else if(commandString.startsWith(deleteCommand)){
+            ArrayList<String> parameters = new ArrayList<>();
+            var matcher = commandPattern.matcher(commandString);
+            while(matcher.find()){
+                parameters.add(matcher.group(1));
+            }
+            return CreateDeleteCommand(parameters);
         }
         else if(commandString.startsWith(exitCommand)){
             ArrayList<String> parameters = new ArrayList<>();
@@ -115,25 +124,22 @@ public class CommandFactory {
         }
     }
     private ICommand CreateUnloadCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "container")){
+        if(Objects.equals(parameters.get(1), "container"))
             if(Objects.equals(parameters.get(2), "into_warehouse")) {
                 return new UnloadContainerCommand(parameters.get(3), parameters.get(4), parameters.get(5));
             }
             else if(Objects.equals(parameters.get(2), "on_train")) {
                 return new UnloadContainerOnTrainCommand(parameters.get(3), parameters.get(4));
             }
-            else throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
-        }
-        else if(Objects.equals(parameters.get(1), "all_containers")){
-            if(Objects.equals(parameters.get(2), "into_warehouse")) {
-                return new UnloadAllContainersCommand(parameters.get(3), parameters.get(4));
+            else if(Objects.equals(parameters.get(1), "all_containers"))
+                if(Objects.equals(parameters.get(2), "into_warehouse")) {
+                    return new UnloadAllContainersCommand(parameters.get(3), parameters.get(4));
             }
             else if(Objects.equals(parameters.get(2), "on_train")) {
                 return new UnloadAllContainersOnTrainCommand(parameters.get(3));
             }
             else throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
-        }
-        else throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
+                return null;
     }
     private ICommand CreateCastOffCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
         if (Objects.equals(parameters.get(1), "ship")) {
@@ -144,30 +150,34 @@ public class CommandFactory {
 
     }
        private ICommand CreateSaveCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "save"))
+        if(Objects.equals(parameters.get(1), "save")){
             if (Objects.equals(parameters.get(2), "ships")) {
                 return new SaveCommand(parameters.get(3));
-            } else if (Objects.equals(parameters.get(2), "warehouses"))
-                return new SaveWarehousesCommand(parameters.get(3));
-                else if(Objects.equals(parameters.get(1), "restore"))
+            }
+            else if (Objects.equals(parameters.get(2), "warehouses"))
+                return new SaveWarehousesCommand(parameters.get(3));}
+        else if(Objects.equals(parameters.get(1), "restore"))
+        {
             if (Objects.equals(parameters.get(2), "ships")) {
                 return new RestoreCommand(parameters.get(3));
-            } else if (Objects.equals(parameters.get(2), "warehouses"))
+            }
+            else if (Objects.equals(parameters.get(2), "warehouses"))
                 return new RestoreWarehousesCommand(parameters.get(3));
+        }
         else throw new CommandNotInCorrectFormat(showCommandInstructionSave);
         return null;
     }
     private ICommand CreateCreateCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
-        if(Objects.equals(parameters.get(1), "container")){
-            return new CreateContainerCommand(parameters.get(2),parameters.get(3),parameters.get(0));
+        if(Objects.equals(parameters.get(2), "container")){
+            return new CreateContainerCommand(parameters.get(3),parameters.get(4),parameters.get(0));
         }
-        else if(Objects.equals(parameters.get(1), "ship")){
-            return new CreateShipCommand(parameters.get(2),parameters.get(3),parameters.get(4),parameters.get(5),Integer.parseInt(parameters.get(6)),Double.parseDouble(parameters.get(7)),Integer.parseInt(parameters.get(8)),Integer.parseInt(parameters.get(9)),Integer.parseInt(parameters.get(10)));
+        else if(Objects.equals(parameters.get(2), "ship")){
+            return new CreateShipCommand(parameters.get(3),parameters.get(4),parameters.get(5),parameters.get(6),Integer.parseInt(parameters.get(7)),Double.parseDouble(parameters.get(8)),Integer.parseInt(parameters.get(9)),Integer.parseInt(parameters.get(10)),Integer.parseInt(parameters.get(11)));
         }
-        else if(Objects.equals(parameters.get(1), "warehouse")){
+        else if(Objects.equals(parameters.get(2), "warehouse")){
             return new CreateWarehouse(parameters.get(2),Integer.parseInt(parameters.get(3)));
         }
-        else if(Objects.equals(parameters.get(1), "info")){
+        else if(Objects.equals(parameters.get(2), "info")){
             throw new CommandNotInCorrectFormat(showCommandInstructionCreate);
         }
         else{
@@ -202,13 +212,20 @@ public class CommandFactory {
             "\tship {ship_id}\n");
     private String showCommandInstructionCreate = ("Argumenty komendy create: \n" +
             "\twarehouse {String_name} {int_capacity}\n"+
-            "\tship {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n")+
-            "\tcontainer {warehouse} {container_Type} Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Nazwa płynu {s} Gęstość {d} Niebezpieczeństwo trujących oparów {tak/nie} Rodzaj niebezpieczeństwa {BIOHAZZARD} Zasięg rażenia {d} Pobór prundu {d}\n";
+            "\tship {String_name} {String_homeport} {String_from} {String_destination} {int_capacity} {double_weight} {int_heavy} {int_electrified} {int_hazardous}\n"+
+            "\tcontainer {warehouse} Zwykły Wysokość ubezpieczenia {i} Waga kontenera {d}\n"+
+            "\tcontainer {warehouse} Ciężki Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i}\n"+
+            "\tcontainer {warehouse} Płynny Wysokość ubezpieczenia {i} Waga kontenera {d} Gęstość {d}\n"+
+            "\tcontainer {warehouse} Lodówka Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Pobór prundu {d}\n"+
+            "\tcontainer {warehouse} Wybuchowy Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Zasięg rażenia {d}\n"+
+            "\tcontainer {warehouse} Toksyczny płynny Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Nazwa płynu {s} Gęstość {d} Rodzaj niebezpieczeństwa {BIOHAZZARD}\n"+
+            "\tcontainer {warehouse} Toksyczny sypki Wysokość ubezpieczenia {i} Waga kontenera {d} Iso {i} Niebezpieczeństwo trujących oparów {tak/nie} Rodzaj niebezpieczeństwa {BIOHAZZARD}\n");
     private String showCommandInstructionSave = ("Argumenty komendy save: \n" +
             "\t\nsave ships {path.txt}"+
             "\t\nrestore ships {path.txt}"+
             "\t\nsave warehouses {path.txt}"+
             "\t\nrestore warehouses {path.txt}");
+
 }
 
 

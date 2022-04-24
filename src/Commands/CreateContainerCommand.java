@@ -20,6 +20,7 @@ public class CreateContainerCommand implements ICommand {
         this.warehouseName = warehouseName;
         this.containerTypeString = containerTypeString;
         this.containerString = containerString;
+
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CreateContainerCommand implements ICommand {
     }
             
         public static ContBasic GenerateContainer(String containerString) {
-        ContBasic container;
+            ContBasic container;
             if (Objects.equals(containerTypeString, ContainerPerisistance.ContainerType.COOLING.name))
                 container = GenerateCoolingConatiner(containerString);
 
@@ -53,19 +54,19 @@ public class CreateContainerCommand implements ICommand {
                 container = GenerateLiquidConatiner(containerString);
             else
                 container = GenerateBasicConatiner(containerString);
-            System.out.printf("Stworzono kontener o Id : s%",container.getId());
+            System.out.printf("Stworzono kontener o id : "+container.getId()+" i dodano do magazynu : "+warehouseName);
             return container;
         }
             
-                private static Pattern containerInsurancePattern = Pattern.compile("Wysokość ubezpieczenia : (.*)");
-                private static Pattern containerCompoundName = Pattern.compile("Nazwa płynu : (.*)");
-                private static Pattern containerIsoPattern = Pattern.compile("Iso : (.*)");
-                private static Pattern containerDensity = Pattern.compile("Gęstość : (.*)");
-                private static Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów : (.*)");
-                private static Pattern containerPollutionType = Pattern.compile("Rodzaj niebezpieczeństwa : (.*)");
-                private static Pattern containerBlastRadius = Pattern.compile("Zasięg rażenia : (.*)");
-                private static Pattern containerAmperagePattern = Pattern.compile("Pobór prundu : (.*)");
-                private static Pattern containerWeightPattern = Pattern.compile("Waga kontenera : (.*)");
+                private static Pattern containerInsurancePattern = Pattern.compile("Wysokość ubezpieczenia ([0-9]*)");
+                private static Pattern containerCompoundName = Pattern.compile("Nazwa płynu (.*)");
+                private static Pattern containerIsoPattern = Pattern.compile("Iso ([0-9]*)");
+                private static Pattern containerDensity = Pattern.compile("Gęstość ([0-9]*)");
+                private static Pattern containerIsSublimating = Pattern.compile("Niebezpieczeństwo trujących oparów ([a-zA-Z]{3})");
+                private static Pattern containerPollutionType = Pattern.compile("Rodzaj niebezpieczeństwa (.*)");
+                private static Pattern containerBlastRadius = Pattern.compile("Zasięg rażenia ([0-9]*)");
+                private static Pattern containerAmperagePattern = Pattern.compile("Pobór prundu ([0-9]*)");
+                private static Pattern containerWeightPattern = Pattern.compile("Waga kontenera ([0-9]*)");
 
                 private static ContLiquid GenerateLiquidConatiner (String containerString){
                     double weight = PersistanceStatics.PatternProperties.getDoubleProperty(containerString, containerWeightPattern);

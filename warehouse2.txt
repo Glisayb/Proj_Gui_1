@@ -1,0 +1,76 @@
+1.
+Nazwa magazynu : Dolny
+Pojemność magazynu : 99
+Kontenery w magazynie : 
+	1. 
+		Id Kontenera : 08fd1450-c67d-44f6-8e1e-a0aa5a1740b2
+		Wysokość ubezpieczenia : 134004979
+		Waga Kontenera : 89.8781579393571
+		Typ kontenera : Płynny
+		Gęstość : 271.84139259904816
+		Data załadowania : 2022-04-24
+		Data końca składowania : 2022-04-29
+		---
+	2. 
+		Id Kontenera : e35cb871-12d5-42b3-bd87-c77f98be293d
+		Wysokość ubezpieczenia : 45564160
+		Waga Kontenera : 160.75054528574066
+		Typ kontenera : Lodówka
+		Pobór prundu : 116.12011826559798
+		Iso : 4271
+		Data załadowania : 2022-04-24
+		Data końca składowania : 2022-04-29
+		---
+	3. 
+		Id Kontenera : dd901022-3dd9-415b-b068-2e4365b422de
+		Wysokość ubezpieczenia : 153303324
+		Waga Kontenera : 59.39625675088587
+		Typ kontenera : Zwykły
+		Data załadowania : 2022-05-17
+		Data końca składowania : 2022-05-22
+		---
+	4. 
+		Id Kontenera : b1a6ac16-ace9-4baa-b0e8-87122de1e85a
+		Wysokość ubezpieczenia : 141652599
+		Waga Kontenera : 99.04251221323013
+		Typ kontenera : Toksyczny sypki
+		Niebezpieczeństwo trujących oparów : nie
+		Iso : 7724
+		Rodzaj niebezpieczeństwa : ALKOHOLIC
+		Data załadowania : 2022-05-17
+		Data końca składowania : 2022-05-22
+		---
+	5. 
+		Id Kontenera : 7bde0cc9-7d82-4a66-a35f-baaeeb85a1b5
+		Wysokość ubezpieczenia : 133690163
+		Waga Kontenera : 150.38437204266202
+		Typ kontenera : Toksyczny sypki
+		Niebezpieczeństwo trujących oparów : nie
+		Iso : 9889
+		Rodzaj niebezpieczeństwa : NIGHT_POLLUTIONS
+		Data załadowania : 2022-05-17
+		Data końca składowania : 2022-05-22
+		---
+	6. 
+		Id Kontenera : 7ec72c9b-7ca1-44c2-a20a-020b3066dbde
+		Wysokość ubezpieczenia : 78559851
+		Waga Kontenera : 198.2843360212736
+		Typ kontenera : Zwykły
+		Data załadowania : 2022-05-17
+		Data końca składowania : 2022-05-22
+		---
+***
+		2.
+Nazwa magazynu : Zachodni
+Pojemność magazynu : 300
+Kontenery w magazynie : 
+	1. 
+		Id Kontenera : 19e4af7e-2226-4215-9f97-0993e64f2648
+		Wysokość ubezpieczenia : 121155141
+		Waga Kontenera : 5.931978132872917
+		Typ kontenera : Zwykły
+		Data załadowania : 2022-04-24
+		Data końca składowania : 2022-04-29
+		---
+***
+		

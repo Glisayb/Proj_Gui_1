@@ -43,11 +43,10 @@ public class Main {
                 StaticClasses.Timer.date = StaticClasses.Timer.date.plusDays(1);
                 for(Warehouse warehouse : warehouses){
                     var warehouseItemList = warehouse.warCollection.stream().filter(w -> Objects.equals(w.getExpirationDate(), StaticClasses.Timer.date)).toList();
-                    try {
-                        for (WarehouseItem warehouseItem : warehouseItemList) {
+
+                        for (WarehouseItem warehouseItem : warehouseItemList)try {
                             warehouse.removeDangerousGoods(warehouseItem);
                         }
-                    }
                     catch (Exception e){
                         System.out.printf("Dzień : %s \t", StaticClasses.Timer.date);
                         System.out.println(e.toString());

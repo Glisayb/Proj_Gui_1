@@ -52,7 +52,7 @@ public class Warehouse {
     public void storeInWarehouse(ContBasic container) throws WarehouseStorageCapacityExceededException {
         StorageDaysLimit limit = DetrmineHowLongContainerCanBeStored(container);
         if (warCollection.size()<capacity) {
-            warCollection.add(new WarehouseItem(container, StaticClasses.Timer.date, StorageDaysLimit.ContExplosive));
+            warCollection.add(new WarehouseItem(container, StaticClasses.Timer.date, limit));
         }
         else
             throw new WarehouseStorageCapacityExceededException(container.getId(), name, capacity);

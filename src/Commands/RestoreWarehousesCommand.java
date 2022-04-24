@@ -1,8 +1,9 @@
-package com.company;
+package Commands;
 
 import Commands.ICommand;
 import Persistance.PersistanceStatics;
 import Persistance.WarehousePersistance;
+import com.company.Main;
 
 public class RestoreWarehousesCommand implements ICommand{
 

@@ -27,6 +27,7 @@ public class CreateShipCommand implements ICommand {
 
     Ship ship = new Ship(name,homeport,from,destination,shipCapacityMax);
     Main.ships.add(ship);
+        System.out.println("Utworzono statek : "+name);
 
     }
 }
