@@ -139,7 +139,7 @@ public class CommandFactory {
                 return new UnloadAllContainersOnTrainCommand(parameters.get(3));
             }
             else throw new CommandNotInCorrectFormat(showCommandInstructionUnload);
-                return null;
+
     }
     private ICommand CreateCastOffCommand(ArrayList<String> parameters) throws CommandNotInCorrectFormat {
         if (Objects.equals(parameters.get(1), "ship")) {
